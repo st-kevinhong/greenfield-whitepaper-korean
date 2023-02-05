@@ -1,14 +1,14 @@
-# Part 1 Design of the BNB Greenfield and the Decentralized Storage Economy
+# 파트 1 BNB 그린필드(Greenfield) 디자인 원칙 및 탈중앙화 저장소 경제
 
-## Table of Content
+## 목차
 
-- [1 Design Principles](#1-design-principles)
-- [2 Assumptions](#2-assumptions)
-- [3 The Architecture in General](#3-the-architecture-in-general)
-  - [3.1 Greenfield Core](#31-greenfield-core)
-  - [3.2 BNB Greenfield dApps](#32-bnb-greenfield-dapps)
-  - [3.3 The Cross-Chain with BSC](#33-the-cross-chain-with-bsc)
-  - [3.4 The Trinity](#34-the-trinity)
+- [1 디자인 원칙](#1-design-principles)
+- [2 전제](#2-assumptions)
+- [3 전반적인 아키텍처](#3-the-architecture-in-general)
+  - [3.1 그린필드 코어](#31-greenfield-core)
+  - [3.2 BNB 그린필드 dApps](#32-bnb-greenfield-dapps)
+  - [3.3 BSC와 크로스 체인](#33-the-cross-chain-with-bsc)
+  - [3.4 삼위일체](#34-the-trinity)
 - [4 BNB Greenfield Core](#4-bnb-greenfield-core)
   - [4.1 The BNB Greenfield Blockchain](#41-the-bnb-greenfield-blockchain)
   - [4.2 The Storage Providers, SPs](#42-the-storage-providers-sps)
@@ -42,62 +42,51 @@
 - [8 "Not" Ending for the Design](#8-not-ending-for-the-design)
   - [8.1 Acknowledgement](#81-acknowledgement)
 
-Part 1 describes the general principles and considerations for the design of BNB Greenfield. It covers the architecture
-and functionality analysis. Although the true model innovation is at the cross-chain with BSC, the unique storage
-fundamentals are also important to highlight.
+파트 1은 BNB 그린필드(Greenfield)를 디자인 할 때 사용된 기본적인 개념들과 고려사항들에 대하여 설명합니다.
+해당 부분에서는 구조적 및 기능적인 분석에 관하여 다룹니다.
+실제 모델의 혁신은 BSC와 크로스 체인을 하는 데에 있지만, 고유의 저장소 기반들도 중요하게 다뤄야 할 부분 중 하나입니다.
 
-## 1 Design Principles
+## 1 디자인 원칙
 
-1. **Simplicity** - The design prefers this first principle over the other considerations. Simple solutions are not only
-   easy to implement, run, maintain, and extend, but also friendly to software performance, which is a main goal of the
-   design. For example, high computing-intensive proof, like what [Filecoin](https://filecoin.io/filecoin.pdf) adopts,
-   is ruled out according to this principle.
+1. **간결함** - 간결함은 다른 전제조건보다도 우선해야 합니다. 간단한 솔루션들은 적용,운영, 유지, 확징이 쉬운 것만이 아니라
+   디자인의 주 목표인 소프트웨어 성능에도 우호적입니다. 예를 들어 [파일코인](https://filecoin.io/filecoin.pdf)같이 높은 컴퓨팅 방식으로의 For example, high computing-intensive proof, like what [파일코인](https://filecoin.io/filecoin.pdf) adopts, is ruled out according to this principle.
 
-2. **Upgradable and continuously evolving** - Perfect system at one go is not the goal of the design. We expect the
-   whole architecture, different components, and even this whitepaper to evolve and get improved based on the community
-   and market feedbacks and future technology development. The infrastructure should have "just enough" establishment to
-   develop and upgrade as time goes on.
+2. **업그레이드 가능 및 지속적인 진화** - 처음부터 완벽한 시스템을 구현하는 것은 디자인의 목표가 아닙니다.
+3. 우리는 전체 아키텍처, 여러 구성요소, 심지어 이 백서도 커뮤니티 및 시장의 피드백과 향후 기술 개발로 인해 진화할 것을 예상합니다.
+   해당 인프라는 시간이 지남에 따라 개발 및 업그레이드를 할 수 있도록 "충분히" 구축도어야 합니다.
 
-3. **Open platform** - The biggest lesson learned from the crypto industry and BNB ecosystem is that the community have
-   the most talent and power to build more applications and infrastructure in different self-driven ways. The design
-   should focus on the core platform and technical foundation that provide enough interface, tools, and other
-   facilitation to the developer community to build upon them.
+3. **오픈 플랫폼** - 암호화폐 산업과 BNB 생태계에서 배운 가장 큰 교훈은 커뮤니티가 자체적인 방식으로 더 많은 애플리케이션과 인프라를 구축할 수 있는 최고의 인재와 역량을 보유하고 있다는 것입니다. 따라서 설계 시 핵심 플랫폼과 충분한 인터페이스, 도구 및 기타 개발자 커뮤니티에게 편의를 제공하는 기술적 기반을 제공하는데에 초점을 맞춰야 합니다.
 
-4. **Massive adoption** - The economy targets beyond the existing BNB Chain clients, but also traditional Web2 users and
-   developers. The system design should try to be as compatible as possible with popular Web2 and Web3 standards.
+4. **대중 수용** - 해당 생태계는 기존 BNB 고객들을 넘어 전통적인 웹2 고객 및 개발자들을 목표로 합니다. 시스템 디자인은 주요 웹2 및 웹3 표준과 최대한 호환되어야 합니다.
 
-5. **Decentralization is a journey** - Take the storage system as an example, there are two ends to the decentralization
-   spectrum. On one extreme end, users have to create and store all their data on a single service supplier; on the
-   other end, users can create and store their data on any household's computing terminal (it does not even have to be a
-   desktop). The design will not force itself to be on the latter end right from day one. It picks up the simplest
-   solution that moves the needle toward higher decentralization and will improve as time goes on. From this sense, the
-   first step Greenfield goes ahead with is to provide the freedom to choose among plenty of service suppliers at any
-   time with trivial costs because they own the data.
+5. **탈중앙화는 여행입니다** - 저장소 시스템을 예시로 들면, 탈중앙화 정도에 양 극단이 존재합니다.
+   한 끝에서는 사용자들이 하나의 서비스 제공자를 통해서만 데이터를 생성하고 저장할 수 있습니다.
+   다른 한 쪽에서 사용자는 모든 가정의 컴퓨팅 단말기를 통해 데이터를 생성하고 저장할 수 있습니다 (데스크톱이 아니어도 됩니다).
+   2안의 디자인은 처음부터 강제로 적용되지 않을 것입니다. 
+   우선은 탈중앙화를 증가시키는 해결책 중 가장 간단한 것을 선택하며, 시간이 지날 수록 단계적으로 발전해 나갈 것입니다.
+   이에따라 첫 단계인 그린필드(Greenfield)는 데이터를 직접 소유하기에 언제나 적은 비용으로 서비스 공급자들을 선택할 수 있도록 만들었습니다.
 
 <div align="center"><img src="./assets/1%20Decentralization%20Spectrum.png" height="80%" width="80%"></div>
 <div align="center"><i>Figure 1.1: Decentralization Spectrum</i></div>
 
-## 2 Assumptions
+## 2 전제
 
-The biggest assumption for the design is:
+해당 디자인의 최대 전제는:
 
-***Greenfield is an economically sustainable, service-oriented
-ecosystem.***
+***그린필드는 경제적으로 지속 가능하며, 서비스 지향적인 생태계입니다.***
 
-By "self-sustained", it means that the service providers and
-corresponding service consumers of Greenfield are rational; they
-complement each other. The providers and the blockchain validators will
-get paid a fair amount for the service they supply, while the users are
-willing to pay for the service they use.
+**자체적으로 지속 가능**하다는 것은, 서비스 공급자들 및 대응되는 서비스 소비자들이 합리적이란 것을 의미합니다.
+제공자들과 블록체인 검증자들은 제공하는 서비스에 대하여 적절한 금액을 받는 반면, 사용자들은 그들이 사용하는 서비스에 대해 기꺼이 지불합니다.
 
-By "service-oriented", it means that the value was created in Greenfield
-by providing service to the users of the ecosystem. It doesn't have
-built-in value by itself.
+**서비스 지향적**이라는 것은, 생태계의 사용자들에게 서비스를 제공하면서 그린필드의 가치가 생성되었음을 의미합니다.
+그린필드 그 자체로 내재된 가치가 없습니다.
 
 The implicit assumption underlying these two traits is that the majority
 of the providers and blockchain validators are reasonable entities and
 individuals. They will not do evil given the profit they earn is larger
-than the fortune they can plunder.
+than the fortune they can plunder. 이 두 가지 특성의 기초가 되는 암묵적인 가정은 대다수가
+제공자와 블록체인 검증자의 합리적인 실체이며 개인들. 그들이 버는 이익이 더 크기 때문에 그들은 나쁜 짓을 하지 않을 것이다
+그들이 약탈할 수 있는 재산보다 더 많다.
 
 This is a self-justifiable trust for the whole ecosystem to exist: if a
 substantial percentage of providers and blockchain validators do evil
@@ -105,8 +94,7 @@ and the ecosystem cannot heal itself by ruling out these malicious
 players, the whole ecosystem will not be used and have no value to
 existing. If that happens, nobody wins even for a short time.
 
-With this implicit built-in trust assumed, many designs are simplified
-as described in the below sections.
+다음과 같이 내장된 밑음이 전제되면, 아래 부분에서 설명하는대로 설계가 단순화 되었습니다.
 
 Another assumption is that both the service provider and consumer sides
 would expect the actual "service contracts" between the two to allow
@@ -118,31 +106,27 @@ the other side, in the service providers' interest, they do not want to
 become a data wasteyard or help circulate any content against their own
 principles.
 
-The payment, data availability check, and a few other key features are
-designed based on this assumption.
+지불, 데이터 가용성 확인 및 여러 주요 기능들은 해당 전제를 기반으로 설계되었습니다.
 
-The last big assumption is that data has value and users will want to
-extract this value with smart contract automation, privacy, and
-transparency. This results in the considerable design for cross-chain
-between BNB Greenfield and BNB Smart Chain (BSC). This should be the
-most important assumption and hopefully close to the truth.
+마지막 큰 전제는 데이터는 가치를 지니며, 사용자들은 스마트 컨트랙트 자동화, 보안 및 투명성을 바탕으로 가치를 추출할 것을 전제로 합니다.
+이는 BNB 그린필드와 BNB 스마트 체인(BSC) 간 크로스 체인을 구현하는데 상당한 설계를 요구하였습니다.
+이는 가장 중요한 전제 조건이며 바라건대 진실에 가깝습니다.
 
-## 3 The Architecture in General
+## 3 전반적인 아키텍처
 
 <div align="center"><img src="./assets/3%20Greenfield%20Economy%20General%20Architecture.png"></div>
 <div align="center"><i>Figure 3.1: Greenfield Economy General Architecture</i></div>
 
-The ecosystem of Greenfield is a "trinity" as shown in the above figure.
+그린필드의 생태계는 위 그림과 같이 '삼위일체'입니다.
 
-### 3.1 Greenfield Core
+### 3.1 그린필드 코어
 
-BNB Greenfield Core is the new system infrastructure described in depth
-in this paper. It is the center of the new ecosystem of data. It has two
-layers.
+BNB 그린필드 코어는 해당 문서에 자세히 설명된 새로운 시스템 인프라를 의미합니다.
+이는 새로운 데이터 생태계의 중심이며, 두 개의 층으로 이루어져 있습니다.
 
-1. A new storage-oriented blockchain, and
+1. 새로운 저장소 기반 블록체인, 및
 
-2. A network composed of "storage providers".
+2. "저장소 공급자"로 이뤄진 네트워크
 
 The BNB Greenfield blockchain maintains the ledger for the users and the
 storage metadata as the common blockchain state data. It has BNB,
@@ -918,25 +902,23 @@ run with their data in a trustful environment provided by Greenfield.
 This particular function, together with other new features will be
 researched and studied with the future development of BNB Greenfield.
 
-### 8.1 Acknowledgement
+### 8.1 감사의 말씀
 
-We'd like to especially thank the efforts and ideas from the below teams
-and communities (in no particular order and definitely not an
-exhaustive, full list). BNB Greenfield stands on these giants' shoulders
-to build.
+우리는 BNB 그린필드의 기반이 되는 노력 및 아이디어를 제공한 다음 팀들과 커뮤니티에게 감사 인사를 전합니다 (순서 상관 없이 배치하였으며, 완전한 목록이 아닙니다).
+BNB 그린필드는 다음과 같은 선구자들의 발견을 토대로 만들어졌습니다.
 
-1. Ethereum
+1. 이더리움
 
-2. Cosmos SDK
+2. 코스모스 SDK
 
 3. Superfluid
 
-4. Amazon Web Services
+4. 아마존 웹 서비스(AWS)
 
-5. MinIO, and other open-source storage systems
+5. MinIO 및 여러 오픈 소스 저장 시스템
 
-6. Filecoin, Arweave, StorJ, and other decentralized storage networks
+6. 파일코인, Arweave, StorJ 및 여러 탈중앙화 저장소 네트워크
 
-7. Bitcoin, and
+7. 비트코인, 및
 
-8. all the other folks and projects that strive for the new Web3 economy
+8. 새로운 웹3 경제를 구축하기 위해 노력하는 모든 사람 및 프로젝트들
