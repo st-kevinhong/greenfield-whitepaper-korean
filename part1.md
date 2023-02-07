@@ -578,27 +578,21 @@ One thing that makes the permission operation more interesting is that
 they can be operated from BSC directly, either through smart contracts
 or by an EOA.
 
-### 6.6 Fees and Payments
+### 6.6 수수료 및 지불
 
 <div align="center"><img src="./assets/6.6%20Payment%20Stream%20Flow.png" height="80%" width="80%"></div>
 <div align="center"><i>Figure 6.1: Payment Stream Flow</i></div>
 
-The storage fee will be charged on Greenfield in a steam payment style
-like
-*[Superfluid](https://docs.superfluid.finance/superfluid/protocol-overview/in-depth-overview/super-agreements/constant-flow-agreement-cfa)*
-.
+그린필드에서 저장소 수수료는 *[Superfluid](https://docs.superfluid.finance/superfluid/protocol-overview/in-depth-overview/super-agreements/constant-flow-agreement-cfa)*와 같은 스팀 지불 스타일로 부과될 것입니다.
 
 The fees are paid on Greenfield in the style of "Stream" from users to
 receiver accounts at a constant rate. The fees are "charged" every
 second as they are used.
 
-There are two kinds of fees for Greenfield: object storage fee and data
-package fee.
+그린필드에는 두 종류의 수수료가 존재합니다: 객체 저장 비용 및 데이터 패키지 비용
 
-For storage, every object stored on Greenfield is charged at the price
-calculated by size, replica numbers, a base price ratio, and other
-parameters. Once the object is stored, the total charge of storage will
-be mainly only related to time and the base price.
+저장소의 경우 그린필드에 저장된 모든 객체는 사이즈, 복제 수, 기본 가격 비율 및 다른 매개변수로 인해서 결정됩니다.
+객체가 저장이 된 후 총 비용은 시간과 기본 가격과 연관이 있습니다.
 
 For data downloading, there is a free, time-based quota for each bucket
 of users' objects. If it's exceeded, users can promote their data
@@ -649,258 +643,200 @@ out, in a similar way to how SPs claim to stop services to certain
 objects. In such a case, the data may be gone from Greenfield
 completely.
 
-### 6.7 Data Integrity and Availability Challenge
+### 6.7 데이터 무결성 및 가용성 도전
 
-There are 3 aspects of data integrity, availability, and redundancy as
-listed below:
+데이터 무결성, 가용성 및 중복에 관해서는 아래와 같이 3가지 측면이 있습니다:
 
-1. The primary SP stores the correct object that the user uploaded.
+1. 최초 서비스 제공자는 사용자가 올린 옯바른 객체를 저장합니다.
 
-2. The SP stores assigned data segments either as the role of primary
-   SP or secondary SP correctly, and the data pieces stored should
-   not be missing, corrupted, or counterfeit.
+2. 서비스 제공자는 지정된 데이터 조각들을 1차 혹은 2차 서비스 제공자로 저장합니다. 저장된 조각들은 분실하거나, 훼손되거나, 위조되면 안됩니다.
 
-3. The Erasure Coding pieces stored in the secondary SPs can recover the original object stored in the primary SP.
+3. 2차 서비스 제공자에 저장된 Erasure 코딩 조각은 1차 서비스 제공자에 저장된 원조 객체를 복구할 수 있습니다.
 
-The data integrity and redundancy should be first guarded by the
-checksum and redundancy setup of the objects. They are part of the data
-object metadata, which should be verified by the SPs and users when the
-objects are created. This metadata will be stored on the Greenfield
-blockchain as well.
+데이터 무결성과 중복성은 먼저 개체의 체크섬 및 중복성 설정에 의해 보호되어야 합니다.
+이들은 데이터 객체 메타데이터의 일부로, 객체 생성 시 서비스 제공자와 사용자에 의해 검증을 받아야 합니다.
+해당 메타데이터는 그린필드 블록체인에도 저장될 것입니다.
 
-Both Greenfield and SPs have to work together to ensure data integrity
-and availability, especially for the above #2. Different from other
-decentralized storage systems, here a "Proof-of-Challenge" is introduced
-to build users' confidence that the data is stored well as promised.
+특히 위에 2번 때문에 그린필드와 서비스 제공자들은 함께 협력하여 데이터 무결성과 가용성을 유지해야 합니다.
+다른 탈중앙화 저장소 시스템과 달리, "Proof-of-Challenge(도전 증명)"이란 개념을 통해 사용자들이 약속된 대로 데이터를 보관하고 있음을 알 수 있습니다.
 
-Challengers can come from different stakeholders. Firstly, users can
-submit challenge transactions; secondly, similar to users, SPs can
-submit challenge transactions to other SPs; and lastly, Greenfield
-blockchain will issue internal challenge events randomly as well.
+도전자는 다른 이해관계자들로부터 올 수 있습니다. 첫째로, 사용자는 도전 트랜잭션을 접수합니다.
+그 다음, 사용자와 비슷하게 서비스 제공자는 다른 서비스 제공자에게 도전 트랜잭션을 접수할 수 있습니다.
+마지막으로, 그린필드 블록체인은 임의로 내부 도전 이벤트를 발행할 것입니다.
 
-The challenge can be triggered by Greenfield transactions or internal
-events at the end of blocking. Once Greenfield validators observe such a
-challenge, they should run a standard off-chain check against the data
-from the SPs being challenged. These validators will vote for the
+도전은 그린필드 트랜잭션이나 블록 생성 끝에 내부 이벤트로 신청할 수 있습니다.
+그린필드 블록체인 검증인들이 해당 첼린지를 조회하면, 이들은 표준 오프 체인 상 체크를 서비스 제공자의 데이터와 비교합니다. 
+해당 검증인들은 These validators will vote for the
 challenge results via an aggregated multisig via an off-chain P2P
 network and submit them to the Greenfield blockchain. The failed result
 for a challenge will slash the corresponding SPs. The submitter and
 validators will get rewards for such challenges.
 
-The data that failed the challenge will not be challenged within a
-certain amount of time to give the SPs some time to recover.
+도전을 실패한 데이터는 서비스 제공자가 회복할 때까지 정해 시간동안 재도전이 불가능합니다.
 
-Another section in Part 3 will cover the data availability challenges in
-greater detail.
+파트 3의 또 다른 섹션에서 데이터 가용성 문제에 관한 내용을 더 자세히 다룰 예정입니다.
 
-### 6.8 Data Delete
+### 6.8 데어터 삭제
 
-Users can request to delete their data objects. Greenfield will remove
-the metadata from the blockchain state, while the primary SP should
-respond to this request and drop all the replicas and redundant
-segments. The payment stream will be closed with a reward rebate to
-encourage the deletion in the future.
+사용자들은 자신의 데이터 객체들을 지우도록 요청할 수 있습니다. 그린필드는 블록체인 상태에서 메타 데이터를 삭제하며,
+초기 서비스 제공자는 해당 요청에 응답하여 복제 데이터와 관련 세그멘트들을 해제합니다. 
+지불 스트림이 향후 삭제를 권장하기 위해 보상 리베이트와 함께 종료됩니다.
 
-## 7 Economy of Data Assets
+## 7 데이터 자산의 경제
 
-The real power of the Greenfield ecosystem lies in that the platform is
-not only designed to store the data, but also to support the creation of
-value based on the data assets and its related economy.
+실제 그린필드 경제의 힘은 데이터를 저장하기 위한 플랫폼에만 있는 것이 아닌, 데이터 자산과 연관된 경제 체제에 가치를 더하는 것을 돕는데에 있습니다.
 
-The asset traits of the data are firstly established on the permissions,
-e.g. the permission to read the data. When this right is disconnected
-from the data itself, they become tradable assets and enlarge the value
-of the data. This can be amplified when the data itself can be
-executable (a new type of "Smart Code"), interact with each other, and
-generate new data. This creates a lot of room to imagine building a new,
-data-intensive, trustless computing environment.
+데이터의 자산적 특성을 권한에 의해 결정됩니다. 데이터를 읽는 권한을 부여하는 것이 그 예시입니다. 
+권한이 데이터 자체로 부터 독립될 때, 이는 교환 가능한 자산이 되며 데이터의 가치를 극대화합니다.
+이는 데이터 자체가 실행 가능할 때(새로운 종류의 스마트 코드)나, 서로 상호작용하거나, 새로운 데이터를 생성할 때 증폭됩니다.
+이를 통해 새롭고, 데이터 직약적이면서 신뢰가 필요없는 컴퓨팅 환경을 구축하는 것을 상상할 수 있습니다.
 
-Secondly, the data permissions can be transferred cross-chain onto BSC
-and become digital assets there. This creates a variety of possibilities
-to integrate these assets with the existing DeFi protocols and models on
-BSC.
+또한 데이터 권한은 크로스 체인을 통해 BSC로 전송되며, 디지털 자산이 될 수 있습니다. 
+이를 통해 기존 BSC 상에 존재한 DeFi 프로토콜이나 모델들에 해당 자산들과 함께 적용될 수 있는 다양한 가능성을 제시합니다.
 
-This gets even further enhanced by the smart contracts on BSC, which
-enjoy the same address format as accounts on the Greenfield blockchain
-and can be the owners of the data objects and inherit different
-permissions. This will unleash many new business opportunities based on
-the data and its operations.
+데이터 권한은 그린필드 블록체인 계정과 같은 주소 체계를 갖고, 데이터 객체들을 소유하며, 다양한 권한들을 상속할 수 있는 BSC의 스마트 컨트랙트들로 인해 더욱 향상됩니다. 
+이런 특징을 통해 데이터와 해당 작업들은 수 많은 새로운 비즈니스 기회들을 제공할 것입니다.
 
-### 7.1 Cross-Chain with BSC
+### 7.1 BSC와 크로스 체인
 
-The cross-chain model expects to achieve the following goals:
+크로스 체인 모델은 다음과 같은 목표를 달성할 것으로 기대하고 있습니다:
 
-- integratable with the existing systems: try to reuse the current
-  infrastructure and dApps as much as possible, such as NFT
-  Marketplace, data indexing, and blockchain explorers.
+- 기존 시스템과 통합 가능: 최대한 현재 인프라와 디앱들을 활용합니다. NFT 마켓플레이스나, 데이터 인덱싱, 블록체인 탐색기 등이 그 예시입니다.
 
-- programmable: dApps can define how they want to wrap the assets from Greenfield.
+- 프로그래밍 가능: dApp들은 그린필드에서 자산을 어떻게 래핑할지 정의할 수 있습니다.
+- 
+- 안전하고 복구 가능.
 
-- secure and recoverable.
+네이티브 크로스 체인 브릿지는 그린필드 검증인들에 의해 유지되고 보호됩니다. 
+이 부분은 집계된 다중서명 체계를 기반으로 한 새로운 릴레이어 시스템에 의해 만들어졌습니다(앞으로 세션들에서 자세히 다룰 예정입니다).
+그린필드 검증인들은 더 넓은 대역폭과 빠른 브릿지를 촉진하기 위해 릴레이어들을 운영합니다.
 
-The native cross-chain bridge is maintained and secured by the
-validators of Greenfield, via a new relayer system based on an
-aggregated multisig scheme (more details in the later sections).
-Greenfield validators will run the relayers to facilitate the high
-bandwidth and fast bridge.
+첫 크로스체인 활동으로 BSC에서 그린필드로 BNB가 전송될 것입니다. 초기에 설정되는 그린필드 최초 검증인 집합은 정해진 개수의 BNB를 BSC상의 "그린필드 토큰 허브" 컨트랙트에 잠깁니다.
+이 컨트랙트는 초기 이후에 BNB를 전송하는 네이티브 브릿지의 일부로 사용될 것입니다. 다음과 같이 최초로 잠긴 BNB는 검증인의 자기 지분 예치 및 초기 가스 비용으로 사용됩니다.
 
-BNB will be transferred from BSC to Greenfield as the first cross-chain
-action. The initial validator set of Greenfield at the genesis will
-first lock a certain amount of BNB into the "Greenfield Token Hub"
-contract on BSC. This contract will also be used as part of the native
-bridge for BNB transferring after the genesis. These initial locked BNB
-will be used as the self-stake of validators and early days gas fees.
-
-### 7.2 Framework
+### 7.2 프레임워크
 
 <div align="center"><img src="./assets/7.1%20Cross-chain%20Architecture.jpg"  height="80%" width="80%"></div>
 <div align="center"><i>Figure 7.1: Cross-chain Architecture</i></div>
 
-The bottom layer is a cross-chain **Communication Layer**, which focuses
-on primitive communication package handling and verification. The middle
-layer implements the **Resource Mirror**. It is responsible for managing
-the resource assets that are defined on Greenfield but mirrored onto
-BSC. The top layer is the **Application Layer**, which are the smart
+크로스 체인의 하부 레이어는 크로스 체인 **커뮤니케이션 레이어**로, 프리미티브(primitive) 통신 패키지를 다루거나 검증하는 역할을 합니다.
+중간 레이어는 **리소스 미러**가 적용되었습니다. 그린필드에 정의되었지만 BSC에 미러링되지 않은 리소스 자산들을 책입집니다. 
+상위 레이어는 **어플리케이션 레이어**로, BSC에 미러링된 리소스 독립체와 프리미티를 통해 which are the smart
 contracts implemented by community developers on BSC to operate the
-mirrored resource entities with their primitives; Greenfield does not have
-such an application layer since itself does not provide programmability yet.
-The real dApps will have some part in this Application Layer and also
-interact with Greenfield Core and all sorts of supporting infrastructures.
+mirrored resource entities with their primitives; 
+그린필드에는 프로그래밍 기능이 없기 때문에 어플리케이션 레이어가 존재하지 않습니다.
+실제 디앱은 어플리케이션 레이어에 일부 존재할 것이며, 그린필드 코어 및 보조 인프라와 통신할 것입니다.
 
-Because of the asymmetric framework, BSC focuses more on the
-application/control plane, while Greenfield is the data plane. To avoid
-state racing, the following rules are introduced:
+비대칭적인 프레임워크로 인해 BSC는 그린필드인 데이터 계층보다 어플리케이션/제어 계층에 주목하였습니다.
+상태의 경주를 막기 위해, 다음과 같은 규칙이 제정되었습니다:
 
-- Any resources that are initiated to create by BSC can only be controlled by BSC.
+- BSC에서 생성을 시작하는 모든 리소스들은 BSC에 의해서만 제어할 수 있습니다.
 
-- Any resources that are controlled by BSC can not transfer control rights to Greenfield.
+- BSC가 제어하는 모든 리소스들은 그린필드에 제어 계층에 전송할 수 없습니다.
 
-- Any resources that are controlled by Greenfield can transfer control rights to BSC.
+- 그린필드가 제어하는 모든 리소스는 BSC 상으로 제어 권한을 전송할 수 있습니다.
 
-### 7.3 Communication Layer
+### 7.3 커뮤니케이션 레이어
 
-The communication layer is composed of a set of **Greenfield Relayers**:
+커뮤니케이션 레이어는 **그린필드 릴레이어**의 집합으로 이루어져 있습니다 :
 
-- Each validator should run a relayer. Each relayer possesses a BLS
-  private key, with the address of the key stored on-chain as part
-  of the validator's mandatory information.
+- 각 검증인은 릴레이어를 운영해야 합니다. 각 릴레이어는 검증자의 필수 정보의 일부로 체인에 저장된 키의 주소와 함께 BLS 개인 키를 가지고 있다.
 
-- The relayer watches all cross-chain events happen on BSC and the
-  Greenfield blockchain independently. After enough blocks of
-  confirmation to reach finality, the relayer will sign a message by
-  the BLS key to confirm the events, and broadcast the signing
-  attestment, which is called "the vote", through a p2p network to
-  other relayers.
+- 릴레이어는 BSC와 그린필드 블록체인에서 발생하는 모든 크로스 체인 이벤트를 개별적으로 조회합니다.
+  블록 확인이 완결성에 도달했을 때, 릴레이어는 이벤트를 확정하기 위해 BLS키로 메세지를 서명합니다.
+  이후 "the vote(투표)"라고 불리는 증명은 p2p 네트워크를 통해 다른 릴레이어들로 전달됩니다.
 
-- Once enough votes from the relayer are collected, the relayer will
-  assemble a cross-chain package transaction and submit it to BSC or
-  Greenfield network.
+- 릴레이어에서 충분한 투표가 모였을 때, 릴레이어는 크로스 체인 패키지 트랜잭션을 구성하여 BSC나 그린필드 네트워크에 제출할 것입니다.
 
-### 7.4 Resource Mirror Layer
+### 7.4 리소스 미러 레이어
 
-#### 7.4.1 Resource Entity Mirror
+#### 7.4.1 리소스 독립체 미러 (Resource Entity Mirror)
 
-The purposes of almost all the cross-chain packages are to change the
-state of the resource entities on the Greenfield blockchain. Thus the
-below resource entities should be able to be mirrored on BSC:
+대부분의 크로스 체인 패키지의 목적은 그린필드 블록체인 상 리소스 독립체의 상태를 변환하기 위한 것입니다.
+따라서 다음 리소스 독립체들은 BSC상 미러링 될 수 있습니다:
 
-1. Account
+1. 계정(Account)
 
 2. BNB
 
-3. Bucket
+3. 버켓(Bucket)
 
-4. Object
+4. 객체(Object)
 
-5. Group
+5. 그룹(Group)
 
-The account mapping is natural: as BSC and Greenfield use the same
-address scheme. The same address values on both sides mean the same
-account. They do not require an actual mirror.
+BSC와 그린필드가 같은 주소 체계를 사용하기 때문에 계정 매핑은 자연스러운 것입니다.
+양쪽의 같은 주소값은 실제로 같은 주소를 나타냅니다. 해당 부분에는 미러가 필요 없습니다.
 
-BNB is a natively pegged token from the genesis of Greenfield. The
-"Token Hub" contract is a smart contract built on BSC to ensure
-that Greenfield cannot inflate BNB and secure the total circulation of
-BNB.
+BNB는 그린필드 탄생부터 자체적으로 패깅된 토큰입니다. 
+BSC상의 스마트 컨트랙트인 "Token Hub" 컨트랙트는 그린필드가 BNB를 주조할 수 없게 만들도 총 유통량을 안전하게 유지할 수 있도록 돕습니다.
 
-Bucket, Object, and Group are mirrored onto BSC as NFTs of a new BEP
-revised from the ERC-721 standard. These NFTs have corresponding
-metadata information for the resources. The ownerships of the NFTs on
-BSC stand for the ownerships of these resources on Greenfield. As these
-ownerships are not transferable on Greenfield, these NFTs are not
-transferable on BSC.
+버켓, 객체 및 그룹은 BSC에 ERC-721 표준을 개선한 새로운 BEP 형태의 NFT로 미러된다. 
+해당 NFT에는 연결된 리소스에 해당되는 메타데이터 정보가 존재합니다.
+BSC에 해당 NFT를 소유하고 있다는 것은 그린필드 상 해당 리소스에 대한 소유하고 있다는 것을 의미합니다.
+해당 소유권은 그린필드에서 전송할 수 없기에, BSC 상으로 전송되지 않습니다.
 
-#### 7.4.2 Cross-Chain Operating Primitives
+#### 7.4.2 크로스 체인 운영 프리미티브
 
-A few series of cross-chain primitives are defined for dApps to call to
-operate on these resource entities.
+크로스 체인 프리미티브(Primitives)를 통해 dApp에서 해당 객체를 호출하고 실행할 수 있도록 정의되었습니다.
 
-It is worth highlighting that smart contracts can call these primitives
-in a similar way as EOAs.
+스마트 컨트랙트는 해당 인터페이스 계정을 EOA와 비슷한 방식으로 호출할 수 있습니다.
 
-Accounts
+계정
 
-- create payment accounts on BSC
+- BSC 상 지불 계정을 생성
 
 BNB:
 
-- transfer bidirectionally between BSC and Greenfield among accounts
-  (including even payment accounts)
+- BSC 와 그린필드 계정 사이 양방향으로 전송됩니다
+  (지불 계정 포함)
 
-Bucket:
+버켓(Bucket):
 
-- create a bucket on BSC
+- BSC 상에서 버켓 생성
 
-- mirror bucket from Greenfield to BSC
+- 그린필드에서 BSC로 버켓 미러
 
-Object:
+객체(Object):
 
-- mirror object from Greenfield to BSC
+- 그린필드에서 BSC로 객체들 복사
 
-- create an object on BSC
+- BSC에서 객체 생성
 
-- grant/revoke permissions of objects on BSC to accounts/groups
+- BSC에서 계정/그룹의 객체 접근 허용/거절 권한
 
-- copy objects on BSC
+- BSC에서 객체 복사
 
-- Kick off the execution of an object on BSC
+- BSC에서 객체 실행
 
-- associate buckets to payment accounts on BSC
+- BSC의 지불 계정과 버켓 연결
 
-Group:
+그룹(Group):
 
-- mirror group from Greenfield to BSC
+- 그린필드에서 BSC로 그룹 미러
 
-- create a group on BSC
+- BSC에서 그룹 생성
 
-- change group members on BSC
+- BSC에서 그룹 멤버 변경
 
-- leave a group on BSC
+- BSC에서 그룹 탈퇴
 
-Once these primitives are called by EOA or smart contracts, the
-predefined events will be emitted. Greenfield Relayers should pick up
-these events and relay them over to Greenfield and BSC. As the change
-will happen asynchronously, there will be specific cross-chain packages
-for acknowledgments or errors, which can trigger a callback. The caller
-of the primitives should pay the fees upfront for cross-chain operations
-and also for the potential callback. More details are discussed in Part 3.
+해당 요소들이 EOA나 스마트 컨트랙트에서 호출되었을 때, 미리 정의된 이벤트가 호출될 것입니다.
+그린필드 릴레이어는 해당 이벤트를 받고 그린필드에서 BSC로 전달할 것입니다.
+해당 변화가 비동기적으로 발생하므로,  특정 크로스 체인 패키지에서 승인 혹은 에러로 인해 콜백을 발생시킬 수 있습니다.
+프리미티브 호출자는 크로스 체인에 대한 수수료를 미리 지불해야 하며, 잠재적인 콜백에 관해서도 비용을 지불해야 합니다.
+더 자세한 사항은 파트 3에서 다룰 예정입니다.
 
-## 8 "Not" Ending for the Design
+## 8 디자인으로 끝나지 않습니다
 
-Many details are not covered in Part 1. While some topics will be added
-and expanded in Part 3, some are very strategic items that shoot too far
-for the team to consider now.
+자세한 부분들이 파트 1에서 다뤄지지 않았습니다. 파트 3에서 여러 토픽들에 관해 추가되고 확장될 것이지만,
+어떤 부분들은 현재 팀에서 전략적으로 고려하기에 너무 멀리 있는 경우가 있습니다.
 
-For example, the "execute" trait of a data object. That concept points
-out that some data are runnable programs. Greenfield may create a more
-transparent computing environment. Users are comfortable using or
-devoting their data to particular programs stored on Greenfield because
-they can verify the program, they do not have to worry about the program
-may change after their confirmation, and they know the program can only
-run with their data in a trustful environment provided by Greenfield.
+예를 들어 데이터 객체들의 "실행" 부분입니다. 해당 컨셉은 데이터 중 일부는 실행 가능한 프로그램입니다.
+그린필드는 더 투명한 컴퓨팅 환경을 만들 수 있습니다. 그린필드에 저장된 프로그램은 검증되고,
+확인 없이 변경될 가능성이 없으며, 그린필드에서 제공한 데이터로만 실행되기 때문에 사용자들이 안심하고 데이터를 사용하거나 제공할 수 있습니다.
 
-This particular function, together with other new features will be
-researched and studied with the future development of BNB Greenfield.
+위와 같은 기능이나 이외에 새로운 기능들은 BNB 연구 및 분석 후에 향후 BNB 그린필드 개발 로드맵에 포함될 예정입니다.
 
 ### 8.1 감사의 말씀
 
