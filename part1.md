@@ -49,8 +49,8 @@
 ## 1 디자인 원칙
 
 1. **간결함** - 간결함은 다른 전제조건보다도 우선해야 합니다. 간단한 솔루션들은 적용,운영, 유지, 확징이 쉬운 것만이 아니라
-   디자인의 주 목표인 소프트웨어 성능에도 우호적입니다. 예를 들어 [파일코인](https://filecoin.io/filecoin.pdf)같이 높은 컴퓨팅 방식으로의 For example, high computing-intensive proof, like what [파일코인](https://filecoin.io/filecoin.pdf) adopts, is ruled out according to this principle.
-
+   디자인의 주 목표인 소프트웨어 성능에도 우호적입니다. 예를 들어 [파일코인](https://filecoin.io/filecoin.pdf)에서 사용하는 같이 높은 컴퓨팅 증명 방식으로의 방식은 원칙에 의해 채용되지 않았습니다.
+   
 2. **업그레이드 가능 및 지속적인 진화** - 처음부터 완벽한 시스템을 구현하는 것은 디자인의 목표가 아닙니다.
 3. 우리는 전체 아키텍처, 여러 구성요소, 심지어 이 백서도 커뮤니티 및 시장의 피드백과 향후 기술 개발로 인해 진화할 것을 예상합니다.
    해당 인프라는 시간이 지남에 따라 개발 및 업그레이드를 할 수 있도록 "충분히" 구축도어야 합니다.
@@ -161,9 +161,9 @@ manages its data in two collaborative parts, on-chain, and off-chain.
 
 The Greenfield blockchain contains two categories of states "on-chain":
 
-1. Accounts and their BNB balance ledger
+1. 계정 및 BNB 잔고 원장
 
-2. The metadata of the object storage system and SPs, the metadata of the objects stored on this storage system, and the
+2. 객체 스토리지 시스템 및 메타데이터 The metadata of the object storage system and SPs, the metadata of the objects stored on this storage system, and the
    permission and billing information associated with this storage system.
 
 Greenfield blockchain transactions can change the above states. These
@@ -178,9 +178,9 @@ When users want to create and use the data on Greenfield, they may
 interact with the BNB Greenfield Core Infrastructure via BNB Greenfield
 dApps (decentralized applications).
 
-### 3.2 BNB Greenfield dApps
+### 3.2 BNB 그린필드 디앱
 
-BNB Greenfield dApps are new types of decentralized applications. They
+BNB 그린필드 디앱은 새로운 방식의 탈중앙화 어플리케이션입니다. They
 can be the client toolings that facilitate users to interact with the
 decentralized storage system, Greenfield Core Infra; or applications
 that bring real values to users' real life by using Greenfield systems
@@ -191,22 +191,21 @@ contracts on the Greenfield blockchain, Greenfield SPs, and BSC.
 There are data endpoints, transaction interfaces, P2P networks, and
 corresponding SDKs to help developers to build BNB Greenfield dApps.
 
-BNB Greenfield dApps should be part of the establishment of BNB Chain
+BNB 그린필드 디앱은  should be part of the establishment of BNB Chain
 infrastructure built mostly by the community and ecosystem partners.
 They can be decentralized or centralized as they prefer.
 
-Part 2 shows considerations through a list of BNB Greenfield dApp
-showcases.
+파트 2는 그린필드 디앱의 예시들을 통해 고려 사항에 관하여 보여줍니다.
 
-### 3.3 The Cross-Chain with BSC
+### 3.3 BSC와 크로스체인
 
-There is a native cross-chain bridge between BSC and BNB Greenfield
-blockchain. While the data can be created and read more cheaply on
+BSC와 BNB 그린필드 블록체인 사이에는 네이티브 크로스 체인 브릿지가 존재합니다. 데이터는 그린필드 코어 인프라에서 더 저렴하게 생성하고 읽을 수 있지만,
+관련 데이터 처리는 BSC로 전송되어 스마트 컨트랙트와 
 Greenfield Core Infra, the relevant data operation can be transferred to
 BSC and integrated with smart contract systems there, such as DeFi, to
 create new business models.
 
-### 3.4 The Trinity
+### 3.4 삼위일체
 
 From the viewpoint of BNB Greenfield dApps, these applications can help
 users to create, read, and execute data on the BNB Greenfield,
@@ -424,7 +423,7 @@ primitives can be executed after the genesis of the Greenfield
 blockchain and enough SPs have registered themselves and started working
 properly.
 
-### 6.1 Account Creation
+### 6.1 계정 
 
 To write a data object into Greenfield, the users must have an account,
 or more specifically, an address on the BNB Greenfield blockchain. This
