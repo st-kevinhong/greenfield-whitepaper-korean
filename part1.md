@@ -2,45 +2,45 @@
 
 ## 목차
 
-- [1 디자인 원칙](#1-design-principles)
-- [2 전제](#2-assumptions)
-- [3 전반적인 아키텍처](#3-the-architecture-in-general)
-  - [3.1 그린필드 코어](#31-greenfield-core)
-  - [3.2 BNB 그린필드 dApps](#32-bnb-greenfield-dapps)
-  - [3.3 BSC와 크로스 체인](#33-the-cross-chain-with-bsc)
-  - [3.4 삼위일체](#34-the-trinity)
-- [4 BNB Greenfield Core](#4-bnb-greenfield-core)
-  - [4.1 The BNB Greenfield Blockchain](#41-the-bnb-greenfield-blockchain)
-  - [4.2 The Storage Providers, SPs](#42-the-storage-providers-sps)
-  - [4.3 The Pair Synergy](#43-the-pair-synergy)
-- [5 The Greenfield Data Storage](#5-the-greenfield-data-storage)
-  - [5.1 Data with Consensus](#51-data-with-consensus)
-    - [5.1.1 Accounts and Balance](#511-accounts-and-balance)
-    - [5.1.2 Validator and SP Metadata](#512-validator-and-sp-metadata)
-    - [5.1.3 Storage Metadata](#513-storage-metadata)
-    - [5.1.4 Permission Metadata](#514-permission-metadata)
-    - [5.1.5 Billing Metadata](#515-billing-metadata)
-  - [5.2 Off-Chain Payload Object Data Storage](#52-off-chain-payload-object-data-storage)
-    - [5.2.1 Primary and Secondary SPs](#521-primary-and-secondary-sps)
-    - [5.2.2 Data Redundancy](#522-data-redundancy)
-- [6 Storage Economics and Its Primitives](#6-storage-economics-and-its-primitives)
-  - [6.1 Account Creation](#61-account-creation)
-  - [6.2 Data Object Creation](#62-data-object-creation)
-  - [6.3 Data Storage](#63-data-storage)
-  - [6.4 Data Read and Download](#64-data-read-and-download)
-  - [6.5 Permissions and Group](#65-permissions-and-group)
-  - [6.6 Fees and Payments](#66-fees-and-payments)
-  - [6.7 Data Integrity and Availability Challenge](#67-data-integrity-and-availability-challenge)
-  - [6.8 Data Delete](#68-data-delete)
-- [7 Economy of Data Assets](#7-economy-of-data-assets)
-  - [7.1 Cross-Chain with BSC](#71-cross-chain-with-bsc)
-  - [7.2 Framework](#72-framework)
-  - [7.3 Communication Layer](#73-communication-layer)
-  - [7.4 Resource Mirror Layer](#74-resource-mirror-layer)
-    - [7.4.1 Resource Entity Mirror](#741-resource-entity-mirror)
-    - [7.4.2 Cross-Chain Operating Primitives](#742-cross-chain-operating-primitives)
-- [8 "Not" Ending for the Design](#8-not-ending-for-the-design)
-  - [8.1 Acknowledgement](#81-acknowledgement)
+- [1 디자인 원칙](#1-디자인-원칙)
+- [2 전제](#2-전제)
+- [3 전반적인 아키텍처](#3-전반적인-아키텍처)
+  - [3.1 그린필드 코어](#31-그린필드-코어)
+  - [3.2 BNB 그린필드 dApps](#32-BNB-그린필드-dApps)
+  - [3.3 BSC와 크로스 체인](#33-BSC와-크로스-체인)
+  - [3.4 삼위일체](#34-삼위일체)
+- [4 BNB 그린필드 코어](#4-BNB-그린필드-코어)
+  - [4.1 BNB 그린필드 블록체인](#41-BNB-그린필드-블록체인)
+  - [4.2 스토리지 제공자](#42-스토리지-제공자)
+  - [4.3 한 쌍의 시너지](#43-한-쌍의-시너지)
+- [5 그린필드 데이터 스토리지](#5-그린필드-데이터-스토리지)
+  - [5.1 합의된 데이터](#51-합의된-데이터)
+    - [5.1.1 계정 및 잔고](#511-계정-및-잔고)
+    - [5.1.2 검증인 및 스토리지 제공자 메타데이터](#512-검증인-및-스토리지-제공자-메타데이터)
+    - [5.1.3 스토리지 메타데이터](#513-스토리지-메타데이터)
+    - [5.1.4 권한 메타데이터](#514-권한-메타데이터)
+    - [5.1.5 청구 메타데이터](#515-청구-메타데이터)
+  - [5.2 오프 체인 페이로드 객체 데이터 스토리지](#52-오프-체인-페이로드-오브젝트-데이터-스토리지)
+    - [5.2.1 1차 및 2차 스토리지 제공자](#521-1차-및-2차-스토리지-제공자)
+    - [5.2.2 데이터 리던던시](#522-데이터-리던던시)
+- [6 스토리지 경제 및 프리미티브](#6-스토리지-경제-및-프리미티브)
+  - [6.1 계정 생성](#61-계정-생성)
+  - [6.2 데이터 객체 생성](#62-데이터-객체-생성)
+  - [6.3 데이터 스토리지](#63-데이터-스토리지)
+  - [6.4 데이터 읽기 및 다운로드](#64-데이터-읽기-및-다운로드)
+  - [6.5 권한 및 그룹](#65-권한-및-그룹)
+  - [6.6 수수료 및 지불](#66-수수료-및-지불)
+  - [6.7 데이터 무결성 및 가용성 도전](#67-데이터-무결성-및-가용성-도전)
+  - [6.8 데이터 삭제](#68-데이터-삭제)
+- [7 데이터 자산 경제](#7-데이터-지신-경제)
+  - [7.1 BSC와 크로스 체인](#71-BSC와-크로스-체인)
+  - [7.2 프레임워크](#72-프레임워크)
+  - [7.3 통신 레이어](#73-통신-레이어)
+  - [7.4 리소스 미러 레이어](#74-리소스-미러-레이어)
+    - [7.4.1 리소스 객체 미러](#741-리소스-객체-미러)
+    - [7.4.2 크로스 체인 운영 프리미티브](#742-크로스-체인-운영-프리미티브)
+- [8 디자인으로 끝나지 않습니다](#8-디자인으로-끝나지-않습니다)
+  - [8.1 감사의 말씀](#81-감사의-말씀)
 
 파트 1은 BNB 그린필드(Greenfield)를 디자인 할 때 사용된 기본적인 개념들과 고려사항들에 대하여 설명합니다.
 해당 부분에서는 구조적 및 기능적인 분석에 관하여 다룹니다.
@@ -67,7 +67,7 @@
    이에따라 첫 단계인 그린필드(Greenfield)는 데이터를 직접 소유하기에 언제나 적은 비용으로 서비스 공급자들을 선택할 수 있도록 만들었습니다.
 
 <div align="center"><img src="./assets/1%20Decentralization%20Spectrum.png" height="80%" width="80%"></div>
-<div align="center"><i>Figure 1.1: Decentralization Spectrum</i></div>
+<div align="center"><i>Figure 1.1: 탈중앙화 스펙트럼</i></div>
 
 ## 2 전제
 
@@ -81,30 +81,15 @@
 **서비스 지향적**이라는 것은, 생태계의 사용자들에게 서비스를 제공하면서 그린필드의 가치가 생성되었음을 의미합니다.
 그린필드 그 자체로 내재된 가치가 없습니다.
 
-The implicit assumption underlying these two traits is that the majority
-of the providers and blockchain validators are reasonable entities and
-individuals. They will not do evil given the profit they earn is larger
-than the fortune they can plunder. 이 두 가지 특성의 기초가 되는 암묵적인 가정은 대다수가
-제공자와 블록체인 검증자의 합리적인 실체이며 개인들. 그들이 버는 이익이 더 크기 때문에 그들은 나쁜 짓을 하지 않을 것이다
-그들이 약탈할 수 있는 재산보다 더 많다.
+이 두 가지 특성의 기초가 되는 암묵적인 가정은 대다수의 제공자 및 블록체인 검증자들이 합리적인 독립체이자 개인이라는 것입니다.
+이들이 버는 이익은 약탈할 수 있는 재산보다 더 크기 때문에 나쁜 짓을 하지 않을 것입니다.
 
-This is a self-justifiable trust for the whole ecosystem to exist: if a
-substantial percentage of providers and blockchain validators do evil
-and the ecosystem cannot heal itself by ruling out these malicious
-players, the whole ecosystem will not be used and have no value to
-existing. If that happens, nobody wins even for a short time.
+다음은 전체 생태계를 존재하기 위한 자기 정당화된 전제입니다: 만일 상당한 비율의 제공자들 및 블록체인 검증인들이 악위적 행위를 저지르고,
+생태계가 악위적인 행위자를 처내지 못하여 복구할 수 없을 때 생태계 전체는 사용되지 않고 가치를 잃을 것입니다. 다음과 같은 일이 발생 시 그 누구도 이득을 볼 수 없습니다.
 
-다음과 같이 내장된 밑음이 전제되면, 아래 부분에서 설명하는대로 설계가 단순화 되었습니다.
-
-Another assumption is that both the service provider and consumer sides
-would expect the actual "service contracts" between the two to allow
-limited liability and provide exit options, even if the contracts are
-carried out mostly by code. In consumers' interest, they do not want to
-pay a large size of fund upfront and would like to choose a better
-provider within the ecosystems or even outside whenever they want. On
-the other side, in the service providers' interest, they do not want to
-become a data wasteyard or help circulate any content against their own
-principles.
+또 다른 전제는 서비스 제공 측과 소비자 측은 계약이 대부분 코드로 실행되더라도, 제한된 책임을 허용하고 종료 옵션을 제공하기 위해 서로 간에 실제 "서비스 계약"을 기대한다는 것입니다.
+소비자의 관심은 많은 비용을 지불하고 싶지 않아하며, 생태계 내부 혹은 외부에서 더 나은 제공자를 찾을 것입니다. 
+반면 제공자의 관심은 데이터의 쓰레기 장이 되거나 자체 원칙에 위배되는 컨텐츠가 순환되는 것을 방지하는 것입니다. 
 
 지불, 데이터 가용성 확인 및 여러 주요 기능들은 해당 전제를 기반으로 설계되었습니다.
 
@@ -115,7 +100,7 @@ principles.
 ## 3 전반적인 아키텍처
 
 <div align="center"><img src="./assets/3%20Greenfield%20Economy%20General%20Architecture.png"></div>
-<div align="center"><i>Figure 3.1: Greenfield Economy General Architecture</i></div>
+<div align="center"><i>Figure 3.1: 그린필드 경제의 전반적인 아키텍처</i></div>
 
 그린필드의 생태계는 위 그림과 같이 '삼위일체'입니다.
 
@@ -126,521 +111,358 @@ BNB 그린필드 코어는 해당 문서에 자세히 설명된 새로운 시스
 
 1. 새로운 저장소 기반 블록체인, 및
 
-2. "저장소 공급자"로 이뤄진 네트워크
+2. "스토리지 제공자"로 이뤄진 네트워크
 
-The BNB Greenfield blockchain maintains the ledger for the users and the
-storage metadata as the common blockchain state data. It has BNB,
-transferred from BNB Smart Chain, as its native token for gas and
-governance. BNB Greenfield blockchain also has its own staking logic for
-governance.
+BNB 그린필드 블록체인은 일반 블록체인 상태 데이터로 사용자 원장과 저장소 메타데이터를 유지합니다. 
+BNB 스마트 체인에서 전송된 네이티브 토큰인 BNB를 통해 가스를 지불하거 거버넌스에 참여합니다. 
+또한 BNB 그린필드 블록체인은 거버넌스를 위한 자체 스테이킹 로직이 존재합니다.
 
-Storage Providers (SP) are storage service infrastructures that
-organizations or individuals provide and the corresponding roles they
-play. They use Greenfield as the ledger and the single source of truth.
-Each SP can and will respond to users' requests to write (upload) and
-read (download) data, and serve as the gatekeeper for user rights and
-authentications.
+스토리지 제공자(Storage Providers - SP)는 기관 혹은 개인이 제공하고 주어진 역할을 실행하는 저장소 서비스 인프라 입니다.
+이들은 그린필드를 단일 진실 공급원의 원장으로 사용합니다.
+각 스토리지 제공자는 사용자들의 데이터 읽기(다운로드) 및 쓰기(업로드) 요청에 응답하고, 사용자 권한과 인증을 토대로 문지기 역할을 합니다.
 
-Initially, a number of validators, run either by the BNB community or
-SPs, go through the genesis to launch BNB Greenfield, while a few SPs
-will also launch the corresponding storage infrastructure and register
-themselves onto the Greenfield blockchain. SPs form another P2P network
-to provide the full feature set to applications and users to create,
-store, read, and trade data while using Greenfield blockchain as the
-metadata and ledger layer.
+우선 BNB 커뮤니티나 스토리지 제공자에 의해 운영되는 몇몇 검증인들은 BNB 그린필드를 출범하기 위한 제네시스를 거치며, 일부 스토리지 제공자는 대응되는 스토리지 인프라를 출범시킨 후 자신들을 그린필드 블록체인 상에 등록합니다. 스토리지 제공자는 어플리케이션과 사용자들이 그린필드 블록체인을 메타데이터 및 원장 레이어로 사용하면서 데이터를 생성, 저장, 읽기 및 교환할 수 있도록 별도의 P2P 네트워크를 형성합니다.
 
 <div align="center"><img src="./assets/3.2%20BNB%20Greenfield%20Core.jpg"></div>
-<div align="center"><i>Figure 3.2: BNB Greenfield Core</i></div>
+<div align="center"><i>Figure 3.2: BNB 그린필드 코어</i></div>
 
-BNB Greenfield blockchain and the SPs together comprise the center of
-this new economy, which is actually a decentralized, object storage
-system (with EVM connectivity as explained later).
+BNB 그린필드 블록체인 및 스토리지 제공자는 함께 실제로 (EVM 연결성 지닌)탈중앙화된 객체 스토리지 시스템의 새로운 경제 중심을 형성합니다.
 
-In contrast to the centralized alternative, this object storage system
-manages its data in two collaborative parts, on-chain, and off-chain.
+중앙화된 대체제와 반대로, 해당 객체 스토리지 시스템은 온체인 및 오프체인 두 가지 부분에서 협엽하여 데이터를 관리합니다.
 
-The Greenfield blockchain contains two categories of states "on-chain":
+그린필드 블록체인은 "온체인"에서 상태는 두 가지 범주에 포함됩니다:
 
 1. 계정 및 BNB 잔고 원장
 
-2. 객체 스토리지 시스템 및 메타데이터 The metadata of the object storage system and SPs, the metadata of the objects stored on this storage system, and the
-   permission and billing information associated with this storage system.
+2. 객체 스토리지 시스템 및 메타데이터와 스토리지 제공자들, 스토리지 스스템에 저장된 객체들의 메타데이터, 그리고 해당 스토리지 스템과 연관된 권한 및 청구 정보
 
-Greenfield blockchain transactions can change the above states. These
-states and the transactions comprise the major economic data of BNB
-Greenfield.
+그린필드 블록체인 트랜잭션은 해당 상태를 변경할 수 있습니다. 해당 상태 및 트랜잭션들은 BNB 그린필드의 거대 경제 데이터를 구성합니다.
 
-While the metadata is stored on-chain, the object storage system stores
-all the object content data (the payload) off-chain, more precisely, on
-SPs' off-chain systems in a decentralized and redundant way.
+메타데이터가 온체인 상에서 저장되는 반면, 객체 저장 시스템은 객체 컨텐츠 데이터(페이로드)를 오프체인에 저장됩니다.
+정확히 말하자면, 분산되고 중복된 방식으로 스토리지 제공자의 오프체인 시스템에 저장됩니다.
 
-When users want to create and use the data on Greenfield, they may
-interact with the BNB Greenfield Core Infrastructure via BNB Greenfield
-dApps (decentralized applications).
+만일 사용자가 그린필드에서 데이터를 생성하고 사용하고 싶으면, BNB 그린필드 dApp(탈중앙화 어플리케이션)들을 통해 BNB 그린필드 코어 인프라와 상호작용하면 됩니다.
 
-### 3.2 BNB 그린필드 디앱
+### 3.2 BNB 그린필드 dApps
 
-BNB 그린필드 디앱은 새로운 방식의 탈중앙화 어플리케이션입니다. They
-can be the client toolings that facilitate users to interact with the
-decentralized storage system, Greenfield Core Infra; or applications
-that bring real values to users' real life by using Greenfield systems
-as their infrastructure. These applications will use blockchain
-addresses as user identifiers and interact with features and smart
-contracts on the Greenfield blockchain, Greenfield SPs, and BSC.
+BNB 그린필드 dApp(디앱)은 새로운 방식의 탈중앙화 어플리케이션입니다. 이들은 사용자들이 탈중앙화 스토리지 시스템이나 코어 인프라와 상호작용하기 위한 툴이거나, 
+그린필드 인프라를 사용하여 사용자들의 생활에 실질적인 가치를 불러오는 어플리케이션이어야 합니다. 
+이런 어플리케이션들은 블록체인 주소로 사용자를 구분하고 그린필드 블록체인, 스토리지 제공자 및 BSC 상 스마트 컨트랙트와 기능들에 접근할 것입니다.
 
-There are data endpoints, transaction interfaces, P2P networks, and
-corresponding SDKs to help developers to build BNB Greenfield dApps.
+개발자들의 BNB 그린필드 dApp 개발을 돕기 위해 데이터 엔드포인트, 트랜잭션 인터페이스, P2P 네트워크 및 대응되는 SDK가 존재합니다.
 
-BNB 그린필드 디앱은  should be part of the establishment of BNB Chain
-infrastructure built mostly by the community and ecosystem partners.
-They can be decentralized or centralized as they prefer.
+BNB 그린필드 디앱들은 대부분 커뮤니티와 생태계 파트너들이 만들어낸 BNB 체인 인프라가 되여야 합니다.
+디앱 개발 과정은 중앙화 혹은 탈중앙화 중 원하는 방식을 선택할 수 있습니다.
 
 파트 2는 그린필드 디앱의 예시들을 통해 고려 사항에 관하여 보여줍니다.
 
 ### 3.3 BSC와 크로스체인
 
 BSC와 BNB 그린필드 블록체인 사이에는 네이티브 크로스 체인 브릿지가 존재합니다. 데이터는 그린필드 코어 인프라에서 더 저렴하게 생성하고 읽을 수 있지만,
-관련 데이터 처리는 BSC로 전송되어 스마트 컨트랙트와 
-Greenfield Core Infra, the relevant data operation can be transferred to
-BSC and integrated with smart contract systems there, such as DeFi, to
-create new business models.
+관련 데이터 작업은 BSC로 전송되어 디파이 같은 스마트 컨트랙트 시스템과 통합되어 새로운 비즈니스 모델을 생성합니다.
 
 ### 3.4 삼위일체
 
-From the viewpoint of BNB Greenfield dApps, these applications can help
-users to create, read, and execute data on the BNB Greenfield,
-Greenfield SPs, and BSC, and serve a purpose to users' needs.
-
-From the viewpoint of BNB Greenfield Core Infrastructure, they accept
-requests and observations from the Greenfield dApps on behalf of the
-users, and also instructions from BSC to operate together for different
-business scenarios.
-
-From the viewpoint of BSC, they can accept transferred data assets from
-BNB Greenfield, and provide more business scenarios via smart contracts
-to new types of Greenfield dApps.
-
-The users can interact with all parts of the trinity for different
-purposes directly or/and indirectly.
-
-## 4 BNB Greenfield Core
-
-### 4.1 The BNB Greenfield Blockchain
-
-BNB Greenfield blockchain uses Proof-of-Stake based on
-Tendermint-consensus for its own network security. Blocks are created
-every 2 seconds on the Greenfield chain by a group of validators.
-
-BNB will be the gas and governance token on this blockchain. There is a
-native cross-chain bridge between the Greenfield blockchain and BSC. The
-initial BNB will be locked on BSC and re-minted on Greenfield. BNB and
-data operation primitives can flow between Greenfield and BSC.
-
-Total circulation of BNB will stay unchanged as it is now but flow among
-BNB Beacon Chain, BSC, and Greenfield.
-
-The validator election and governance are based on a proposal-vote
-mechanism, which is revised based on Cosmos SDK's governance module:
-anyone can create and propose to become a validator, and the election
-into the active set will be based on the stake ranking (initially new
-validators may request the existing validator set's votes to be
-qualified for election). As validators will host all the critical
-metadata and respond to all data operation transactions, they should run
-professionally in terms of performance and stability.
-
-To facilitate cross-chain operation and convenient asset management, the
-address format of the Greenfield blockchain will be fully compatible
-with BSC (and Ethereum). It also accepts EIP712 transaction signing and
-verification. These enable the existing wallet infrastructure to
-interact with Greenfield at the beginning naturally.
-
-### 4.2 The Storage Providers, SPs
-
-SPs play a different role from Greenfield validators, although the same
-organizations or individuals can run both SPs and validators if they
-follow all the rules and procedures to get elected.
-
-SPs store the objects' real data, i.e. the payload data. Each SP runs its own object storage system. Similar to Amazon
-S3 and other object store systems, the objects stored on SPs are immutable. The users may delete and re-create the
-object (under the different ID, or under the same ID after certain publicly declared settings), but they cannot modify
-it.
-
-SPs have to register themselves first by depositing on the Greenfield
-blockchain as their "Service Stake". Greenfield validators will go
-through a dedicated governance procedure to vote for the SPs of their
-election. SPs are encouraged to advertise their information and prove to
-the community their capability, as SPs have to provide a professional
-storage system with high-quality SLA.
-
-SPs provide publicly accessible APIs for users to upload, download, and
-manage data. These APIs are very similar to Amazon S3 APIs so that
-existing developers may feel familiar enough to write code for it.
-Meanwhile, they provide each other REST APIs and form another
-white-listed P2P network to communicate with each other to ensure data
-availability and redundancy. There will also be a P2P-based
-upload/download network across SPs and user-end client software to
-facilitate easy connections and fast data download, which is similar to
-BitTorrent.
-
-More SPs are welcome to ensure decentralization and data redundancy. But
-too many SPs may make SPs unable to make enough to sustain the business.
-Greenfield has an incentive design to make a proper number of SPs
-available. While SPs can choose to stay with the network or leave.
-
-When the SPs join and leave the network, they have to follow a series of
-actions to ensure data redundancy for the users; otherwise, their
-"Service Stake" will be fined. This is achieved through the data
-availability challenge (described in detail in Part 3) and validator
-governance votes.
-
-### 4.3 The Pair Synergy
-
-Greenfield validators and SPs form a pair synergy to provide the whole
-storage service. Validators store the metadata and financial ledger with
-consensus, while SPs provide real data storage and downloading.
-Validators have the motivation to ensure enough good SPs to provide
-decent service, while users and SPs rely on a stable and decentralized
-Greenfield blockchain as a single source of truth on metadata.
-
-## 5 The Greenfield Data Storage
-
-The data stored on Greenfield has two main categories:
-
-1. data with blockchain consensus - They are Greenfield blockchain data.
-   All Greenfield validators have such active data in full (at least the latest state).
-   Anyone can join the blockchain as full nodes to synchronize these data for free.
-
-2. object payload data - object data for short. This is the data that users store on Greenfield.
-   Such data has access control and requires fees to store.
-   They are not stored on the blockchain but on enough instances of SPs off-chain.
-
-### 5.1 Data with Consensus
-
-These data are on-chain and can be only changed through transactions
-onto the Greenfield blockchain. It has several types as described below.
-
-#### 5.1.1 Accounts and Balance
-
-Each user has their "Owner Address" as the identifier for their owner
-account to "own" the data resources. There is another "payment account"
-type dedicated to billing and payment purposes and owned by owner
-addresses.
-
-Both owner accounts and payment accounts can hold the BNB balance on
-Greenfield. Users can deposit BNB from BSC, accept transfers from other
-users, and spend them on transaction gas and storage usage.
-
-#### 5.1.2 Validator and SP Metadata
-
-These are the basic information about the Greenfield validators and
-Greenfield SPs. SPs may have more information, as it has to publish
-their service information for users' data operations. There should be a
-reputation mechanism for SPs as well.
-
-#### 5.1.3 Storage Metadata
-
-The "storage metadata" includes size, ownership, checksum hashes, and
-distribution location among SPs. Similar to AWS S3, the basic unit of
-the storage is an "*object*", which can be a piece of binary data, text
-files, photos, videos, or any other format. Users can create their
-objects under their "*bucket*". A bucket is globally unique. The object
-can be referred to via the bucket name and the object ID. It can also be
-located by the bucket name, the prefix tag, and the object ID via
-off-chain facilitations.
-
-#### 5.1.4 Permission Metadata
-
-Data resources on Greenfield, such as the data objects and the buckets,
-all have access control, such as which address can create, read, list,
-or even execute the resources, and which address can grant/revoke these
-permissions.
-
-Two other data resources also have access control. One is "Group". A
-group represents a group of user addresses that have the same
-permissions to the same resources. It can be used in the same way as an
-address in the access control. Meanwhile, it requires permission too to
-change the group. The other is "payment account". They are created by
-the owner accounts.
-
-Here the access control is enforced by the SPs off-chain. People can
-test and challenge the SPs if they mess up the control. Slash and reward
-will happen to keep the SPs sticking to the principles.
-
-#### 5.1.5 Billing Metadata
-
-Users have to pay fees to store data objects on Greenfield. While each
-object enjoys a free quota to download by users who are permitted to,
-the excessive download will require extra data packages to be paid for
-the bandwidth. Besides the owner address, users can derive multiple
-"Payment Addresses" to pay these fees. Objects are stored under buckets,
-while each bucket can be associated with these payment addresses, and
-the system will charge these accounts for storing and/or downloading.
-Many buckets can share the same payment address. Such association
-information is also stored on chains with consensus as well.
-
-The payment of Greenfield is on a stream pay model, which will greatly
-reduce the complexity to implement the billing logic - more described in
-Part 3.
-
-### 5.2 Off-Chain Payload Object Data Storage
-
-The payload data of the object, i.e. the bytes comprising the data
-files, photos, and videos, are stored off-chain in multiple SPs with a
-data redundancy design. Each SP can have its edition of an object
-storage system with a good SLA and high-performance interface to
-interact with the users and other SPs.
-
-#### 5.2.1 Primary and Secondary SPs
-
-Among the multiple SPs that one object is stored on, one SP will be the
-"Primary SP", while the others are "Secondary SP".
-
-When users want to write an object into Greenfield, they or the client
-software they use must specify the primary SP. Primary SP should be used
-as the only SP to download the data. Users can change the primary SP for
-their objects later if they are not satisfied with their service.
-
-#### 5.2.2 Data Redundancy
-
-After the users issue a "write" request, Primary SP should respond to
-the client upload request to accept the user upload, chop the object
-data into segments, verify the data integrity and store all the segments.
-After that, Primary SP computes a data redundancy solution for these segments
-based on Erasure Coding (EC). Then Primary SP or the users will select a
-few secondary SPs to store these segment replicas and their EC parity pieces.
-This data distribution communication will be done via the p2p network and REST
-APIs among SPs.
-
-The data redundancy setup is to ensure that even if the primary SP and a
-few secondary SPs become unavailable at a later time, Greenfield can
-still recover the full data.
-
-## 6 Storage Economics and Its Primitives
-
-In this section, the underlying economics and the operating primitives
-are discussed aligned with the lifecycle of a data object. The below
-primitives can be executed after the genesis of the Greenfield
-blockchain and enough SPs have registered themselves and started working
-properly.
-
-### 6.1 계정 
-
-To write a data object into Greenfield, the users must have an account,
-or more specifically, an address on the BNB Greenfield blockchain. This
-can be done by transferring some BNB either from other addresses on
-Greenfield or from BSC.
-
-This may be a special route that users can skip this step but issue the
-"transfer and write" request directly from BSC. As Greenfield and BSC
-share the same address protocol, this action de facto creates an account
-on Greenfield with the same address on BSC.
-
-### 6.2 Data Object Creation
-
-Users must create "Buckets" before creating objects. Similar to the
-"Bucket" concepts in AWS S3, "buckets" here are a data resource to group
-data objects from a user. All the objects under the same bucket will be
-stored on the same primary SP and downloadable from that SP. Users can
-create many buckets and store their data objects in different ones.
-
-Each bucket has a Primary SP associated with it, which means all the
-objects under this bucket will use that SP as the Primary SP. If the
-chosen Primary SP cannot serve the requests well, the user may choose to
-migrate the bucket to another SP completely via an on-chain transaction.
-
-Data object creation is performed in two phases.
-
-1. Request phase:
-
-a. Users establish the connection with the primary SP and send a
-"get approval" message to ask if it is willing to store the object; The
-primary SP acknowledges the request by signing a message about the
-operation and returns it to the client;
-
-b. After the primary SP determines to accept the request to store the data
-as the primary SP, the client constructs a "write" transaction message with
-the primary SP's signature and the initial object metadata, such as the
-object name, the bucket name, size, checksum, while optionally content type
-and the storage preference, etc; Users sign the transaction and submit it
-to Greenfield chain;
-
-c. Users get the result of the transaction and transaction hash;
-
-d. Greenfield accepts the "create" request and locks fees from users.
+BNB 그린필드 디앱 입장에서는 다음 어플리케이션들이 사용자들의 데이터를 생성하거나, 읽거나, BNB 그린필드, 
+그린필드 스토리지 제공자 및 BSC 상에서 데이터를 실행하고 요구에 맞는 기능들을 제공합니다.
 
-2. Seal phase:
+BNB 그린필드 코어 인프라 관점에서는 사용자 대신 그린필드 디앱에서 요청 및 관찰을 수행하고,
+BSC로부터 지시를 통해 함께 여러 비즈니스 시나리오에 대한 연산을 처리합니다.
 
-a. Users connect to the primary SP and send transaction hash; The primary SP
-uses the transaction hash to check if the object metadata is already created
-on Greenfield chain;
+BSC 관점에서는 BNB 그린필드에서 전송된 데이터 자산을 받고 그린필드 디앱에서 새로운 유형의 스마트 컨트랙트를 통해 더 많은 비즈니스 시나리오를 제공할 수 있습니다.
 
-b. Users start uploading the object payload data to the primary SP if the
-object metadata is already created; The primary SP checks if the payload data
-matches the object's metadata by comparing the checksum of the object on
-Greenfield chain and the checksum of the payload data; If it matches the
-primary SP will sign the "uploaded" confirmation to the users;
-
-c. The primary SP syncs with secondary SPs to set up the data redundancy,
-and then it signs a "Seal" transaction with the finalized metadata for storage.
-If the primary SP determines that it doesn't want to store the file due to
-whatever reason, it can also "SealReject" the request.
-
-d. Greenfield processes the "Seal" or "SealReject" transaction to begin the
-storage life cycle for the object. Users can still "CancelRequest" to give up
-the creation request and get partially refunded.
-
-There are scenarios in which the primary SP doesn't cooperate with the user well: 1. The primary SP acknowledges the
-upload request, but doesn't accept the upload in time; 2. the primary SP signs the "uploaded" confirmation but doesn't
-seal the transaction in time. Greenfield expects the primary SP to finish the object creation by either "Seal" or
-"SealReject" transaction in a predefined time window; otherwise, the primary SP will be punished with a fine. Primary SP
-has no rational reasons to not acknowledge the upload request or doesn't seal in time, while the users have no rational
-reasons to create the requests but do not upload in time either.
-
-There may be a special case in which the "create" is triggered from BSC
-as a cross-chain transaction, the primary SP cannot get requests
-directly. The primary SP can observe such requests and perform other
-actions in the same way.
-
-### 6.3 Data Storage
-
-Once a data object is "Sealed", the owner of the object has de facto
-entered a contract with the SPs for the storage, in which case the
-owners should pay fees for such storage and the SPs should guarantee the
-data availability.
-
-The data object owners always have the right to change the primary SP to
-store their data, after settling the outstanding fees.
-
-The SPs, especially the primary SPs, can also inform people to stop
-storing the data, due to either their own opinions or decision. Both
-other SPs and the owners can observe corresponding notifications. Other
-SPs can voluntarily propose themselves to be successors to store the
-data objects on Greenfield if the owners do not react to the
-notification in a predefined time, as other SPs do like to take the
-business.
-
-### 6.4 Data Read and Download
-
-By design, the bytes that are stored and downloaded later for the object
-are exactly the same bytes that were originally uploaded. SPs may use
-their encryption logic as they wish, but when the data is being
-downloaded, it shows the same bytes as it was uploaded. Users may choose
-their own encryption scheme or use the default one provided by the
-client software if they want the data to be unrecognizable by SPs or any
-others, even though SPs have the obligation to not circulate these data
-out of users' instruction.
-
-Data objects can be only read and downloaded by the addresses with
-proper read permissions. The Primary SP of the objects is the main
-source to download from. If Primary SP is not available, the owner and
-Greenfield blockchain validators can challenge (described in Part 3) and
-change the object's primary SP to recover the downloading.
-
-Each object has a time-based traffic bandwidth quota, which is provided
-free, i.e. nobody needs to pay for downloading a certain amount within a
-certain period. It is expected that this quota can satisfy most of the
-individual download needs as part of the normal usage conditions.
-
-For extra bandwidth to download the object, someone has to pay for the
-data package, which is covered in the payment section.
-
-### 6.5 Permissions and Group
-
-Permission is the main logic introduced in Greenfield to enable
-potential business models.
-
-The data resources, including the objects, buckets, payment accounts,
-and groups, all have permissions related. These permissions define
-whether each account can perform particular actions.
-
-Group is a list of accounts that can be treated in the same way as a
-single account.
-
-Examples of permissions are:
-
-- Put, List, Get, Delete, Copy, and Execute data objects;
-
-- Create, Delete, and List buckets
-
-- Create, Delete, ListMembersOf, Leave groups
-
-- Create, Associate payment accounts
-
-- Grant, Revoke the above permissions
-
-These permissions are associated with the data resources and
-accounts/groups, and the group definitions are stored on the Greenfield
-blockchain publicly. Now they are in plain text. Later a privacy mode
-will be introduced based on Zero Knowledge Proof technology.
-
-One thing that makes the permission operation more interesting is that
-they can be operated from BSC directly, either through smart contracts
-or by an EOA.
+사용자들은 삼위일체의 모든 부분과 직간접적으로 상호작용 할 수 있습니다.
+
+## 4 BNB 그린필드 코어
+
+### 4.1 BNB 그린필드 블록체인
+
+BNB 그린필드 블록체인은 자체 네트워크 보안을 위한 텐더민트 합의 기반 지분 증명을 사용하고 있습니다.
+블록들은 매 2초마다 검증인 집합으로 인해 그린필드 체인에서 생성됩니다.
+
+BNB는 이 블록체인 상에서 가스이자 거버넌스 토큰으로 작동할 것입니다. 여기에 그린필드 블록체인과 BSC 사이에는 자체 크로스 체인 브릿지가 존재합니다.
+최초 BNB는 BSC 상에서 잠긴 후 그린필드에서 재민팅될 것입니다. BNB 및 데이터 연산 프리미티브는 그린필드와 BSC 간 자유롭게 주고 받을 수 있습니다.
+
+이때까지 BNB의 총 공급량은 변화가 없겠지만 BNB 비컨 체인, BSC 및 그린필드 상에서 유통될 것입니다.
+
+검증인 선출 및 거버넌스는 코스모스 SDK 거버넌스 모듈을 재연한 제안-투표 메커니즘을 따릅니다:
+누구나 검증인이 되기로 생성 및 제안할 수 있으며, 활성 집합에 들기 위한 선 과정은 스테이킹 랭킹을 기반으로 합니다. 
+처음에 새로운 검증인들은 현재 검증인 집합의 표가 투표에 적합하도록 요청할 수 있습니다.
+검증인들이 모든 중요한 메타데이터를 보유하고 모든 데이터 연산 트랜잭션에 응답하므로, 이들은 성능 및 안전성 면에서 전문적으로 운영되어야 합니다.
+
+크로스 체인 연산 및 편한 자산 관리를 하기 위해 그린필드 블록체인의 주소 포맷은 BSC(및 이더리움)와 완전히 호환됩니다.
+또한 EIP712 트랜잭션을 서명 및 검증도 지원하는데, 이를 통해 현존하는 지간 인프라를 그린필드와 자연스럽게 상호작용할 수 있습니다.
+
+### 4.2 스토리지 제공자
+
+스토리지 제공자(Storage Provider)는 비록 검증인을 운영하는 개인 및 단체가 투표로 선출되기 위한 규칙과 절차를 검증인과 스토리지 제공자 모두를 운영할 수 있지만, 그린필드 검증인과 다른 역할을 맡습니다.
+
+스토리지 제공자는 페이로드 데이터 같은 객체의 실제 데이터를 저장합니다. 각 스토리지 제공자는 고유한 객체 스토리지 시스템을 운영합니다. 아마존S3 및 다른 객체 저장 시스템들과 유사하게, 스토리지 제종가에 저장된 객체들을 변하지 않습니다. 사용자가 해당 객체를 제거한 후 다른 ID 혹은 공개적으로 선언된 설정을 통해 같은 ID로 다시 생성할 수는 있지만 이를 변형할 수는 없습니다.
+
+스토리지 제공자는 그린필드 블록체인 상에 "service stake"를 통해 예치하여 등록해야합니다.
+그린필드 검증인은 전용 거버넌스 절차를 통해 스토리지 제공자를 선정합니다.
+스토리지 제공자는 전문적인 스토리지 시스템 및 퀄리티 좋은 SLA를 제공해야하기 때문에, 커뮤니티에 저장소를 운영할 능력이 있음을 홍보하고 증명해야 합니다.
+
+스토리지 제공자는 공개적으로 접근 가능한 API를 제공하여 사용자들이 데이터에 대한 업로드 다운로드 및 관리를 할 수 있도록 만들었습니다.
+이 API들은 Amazon S3 API들과 유사하게 설계되어 현존하는 개발자들 중에 해당 분야를 다뤄보신 분은 코드를 작성할 수 있을 정도록 비슷하게 설계되었습니다.
+한편, 서로의 REST API들도 지원하여 서로 화이트 리스트된 P2P 네트워크 간 통신하여 데이터 가용성과 리던던시를 보장할 것입니다.
+또한 비트토렌트와 비슷한 스토리지 제공자 사이 P2P 기반 업로드/다운로드 네트워크와 사용자가 쉽게 연결하고 빠르게 데이터를 다운로드 할 수 있는 클리아언트 소프트웨어도 제공될 계획입니다.
+
+탈중앙화 및 데이터 중복을 실현하기 위해 더 많은 스토리지 제공자가 오는 것은 환영합니다.
+하지만 스토리지 제공자가 너무 많아지면 비즈니스를 유지하기 힘들 수 있습니다.
+따라서 그린필드는 적절한 수의 스토리지 제공자를 마련하기 위한 인센티브 구조를 설계하였고, 
+스토리지 제공자들은 상황에 따라 네트워크에 합류하거나 떠날 수 있습니다.
+
+스토리지 제공자가 네트워크에 합류하거나 떠날 때, 사용자들의 데이터 리던던시를 보장하기 위한 절차들을 실행해야 합니다. 
+그러지 않을 경우 초기에 맡긴 "Service Stake"가 차감됩니다. 이는 데이터 가용성 도전(Part3에 자세히 나타납니다) 및 검증인 거버넌스 투표로 결정됩니다.
+
+### 4.3 한 쌍의 시너지
+
+그린필드 검증들과 및 스토리지 제공자는 완전한 스토리지 서비스를 제공하기 위해 한 쌍의 시너지를 형성합니다. 
+검증인들은 메타데이터 및 합의된 금융 원장을 기록하며, 스토리지 저장소는 실제 데이터 저장소 및 다운로드 가능을 제공합니다.
+검증인들은 충분한 스토리지 제공자들이 양질의 서비스를 지속할 수 있도록 동기부여하고, 
+사용자들과 스토리지 제공자들은 안정적이고 탈중앙화된 그린필드 블록체인을 메타데이터에 관한 단일 진실 공급원으로 사용합니다.
+
+## 5 그린필드 데이터 스토리지
+
+그린필드에 저장된 데이터는 크게 두 가지  범주에 속해 있습니다:
+
+1. 블록체인 합의가 된 데이터 - 그린필드 블록체인 데이터입니다.
+   모든 그린필드 검증인들은 다음과 같이 활성화된 상태에 관한 데이터는 전부 보유하고 있습니다 (적어도 최신 상태는 보유).
+   누구나 풀 노드로 블록체인에 합류하여 데이터를 무료로 동기화 할 수 있습니다.
+
+2. 객체 페이로드 데이터 - 줄여서 객체 데이터입니다. 이는 그린필드 상에서 사용자가 저장한 데이터입니다.
+   해당 데이터는 접근 제어가 존재하며 저장 시 수수료가 발생합니다.
+   블록체인 상에 저장되진 않지만 스토리지 제공자 오프 체인에서 충분히 인스턴스로 사용됩니다.
+
+### 5.1 합의된 데이터
+
+해당 데이터들은 온체인 상에서만 존재하고 그린필드 블록체인 상으로 트랜잭션을 보내야만 상태를 변경할 수 있습니다.
+이들은 아래에 설명된 것처럼 몇 가지 타입이 존재합니다.
+
+#### 5.1.1 계정 및 잔고
+
+각 사용자들은 자신의 소유자 주소를 데이터를 소유하기 위한 소유자 계정의 구분자로 사용하기 시작했습니다. 
+한편 소유자 주소가 보유하고 청구 및 지불에 특화된 "지불 계정"이란 계정도 존재합니다.
+
+소유자 계정 및 지불 계정 모두 그린필드 상에서 BNB 잔고를 보유할 수 있습니다. 
+사용자들은 BSC에서 BNB를 예치한 후, 다른 사용자들로부터 전송 허가한 후, 트랜잭션 가스를 지불 및 스토리지 저장에 사용합니다.
+
+#### 5.1.2 검증인 및 스토리지 제공자 메타데이터
+
+다음은 그린필드 검증인 및 그린필드 스토리지 제공자에 관한 기본적인 정보입니다.
+스토리지 제공자는 사용자들의 데이터 처리를 위해 서비스 정보를 게시해야 하기 때문에 더 많은 정보를 지니고 있을 수 있습니다.
+스토리지 제공자에 관한 평판 매커니즘도 존재해야 할 것입니다.
+
+#### 5.1.3 스토리지 메타데이터
+
+"스토리지 메타데이터"는 사이즈, 소유권, 체크섬 해시 및 스토리지 제공자 간 배포 장소를 포함합니다.
+AWS S3과 유사하게, 스토리지의 기본 유닛은 "*객체*"이며, 바이너리 데이터, 텍스트 파일, 사진, 비디오 및 이외에 다양한 형식의 파일들이 올 수 있습니다. 
+사용자들은 객체들을 자신들의 "*버켓*"에 생성할 수 있습니다. 버켓은 전역적으로 고유합니다. 객체는 버켓 이름 및 객체 ID를 통해 참고할 수 있습니다.
+아니면 접두사 태그나 오프 체인 툴을 통한 object ID로 위치를 찾아갈 수도 있다.
+
+#### 5.1.4 권한 메타데이터
+
+버켓 내 데이터 객체 같은 그린필드 상 데이터 리소스는 접근 제어를 할 수 있어서 주소를 통한 생성, 읽기, 리스트, 혹은 리소스를 실행하며, 권한에 대한 허용 및 거절을 결정할 수 있습니다.
+
+다른 두 개의 데이터 리소스도 접근 제어 기능이 있습니다. 그 중 하나는 "그룹" 입니다.
+그룹은 같은 리소스에 대해 같은 허가 권한을 가진 사용자 주소들의 집합입니다. 
+이는 접근 제어에 있는 주소와 같은 방식으로 사용할 수 있습니다.
+한편 그룹을 변경하기 위해서도 권한이 필요합니다. 또 다른 하나는 "지불 계정"입니다. 
+지불 계정은 소유자 계정에 의해서 생성됩니다.
+
+여기서 접근 제어는 스토리지 제공자 오프체인에서 실행됩니다.
+스토리지 제공자가 제대로 관리를 하지 못하면, 사람들을 스토리지 제공자에게 테스트 및 도전을 할 수 있습니다. 
+스토리지 제공자들이 원칙을 지키게 하기 위해 슬래싱 및 보상 매커니즘이 작동할 것입니다.
+
+#### 5.1.5 청구 메타데이터
+
+사용자들은 데이터 객체들을 그린필드에 저장하기 위해 수수료를 지불해야합니다.
+각 객체들은 허용된 사용자에 한해 무료 할당량을 누리고 있지만, 과도한 다운로드는 추가적인 데이터 패키지가 필요하며 대역폭에 의해 요금을 지불해야 합니다.
+소유자 주소 외에, 사용자는 수수료를 지불하기 위해 여러 "결제 주소"를 도출할 수 있습니다.
+객체들은 버켓 내부에 저장이 되고, 각 버켓은 결제 주소들과 연관될 수 있으며, 시스템은 이러한 계정에 저장 및/또는 다운로드 비용을 청구합니다.
+많은 버켓들이 같은 결제 주소를 공유할 수 있습니다. 이런 연관 정보는 합의된 온체인 상에 저장됩니다.
+
+그린필드의 지불은 스트림 지불 모델을 채택하고 있는데, 이는 청구 모델을 적용할 때 복잡도가 크게 감소합니다. 더 자세한 사항은 Part 3를 참고해 주세요.
+
+### 5.2 오프 체인 페이로드 객체 데이터 스토리지
+
+데이터 파일, 사진, 비디오 등이 바이트들로 구성된 객체의 페이로드 데이터는 여러 스토리지 제공자에 의해 오프 체인 상에 중복해서 저장됩니다. 
+각 스토리지 제공자는 자신만의 객체 저장 시스템을 가지며, 좋은 SLA와 고성능 인터페이스를 통해 사용자 및 다른 스토리지 제공자들과 상호작용할 수 있습니다.
+
+#### 5.2.1 1차 및 2차 스토리지 제공자
+
+하나의 같은 객체를 제공하는 여러 스토리지 제공자 중 한 스토리지 제공자는 "1차 스토리지 제공자"로, 
+나머지는 "2차 스토리지 제공자"로 지정됩니다.
+
+만일 사용자가 그린필드에 객체를 작성하고 싶으면, 사용자나 클라이언트 소프트웨어가 1차 스토리지 제공자를 지정해줘야 합니다.
+1차 스토리지 제공자는 데이터를 다운 받기 위한 유일한 스토리지 제공자로 사용되어야 합니다. 만일 사용자가 서비스에 만족하지 못하면 1차 스토리지 제공자를 변경할 수 있습니다.
+
+#### 5.2.2 데이터 리던던시
+
+사용자가 "작성" 요청을 생성한 후, 1차 스토리지 제공자는 클라이언트의 업로드 요청에 답장을 해야 합니다.
+1차 서비스 제공자는 클라리언트 업로드 요청에 응답하여 사용자가 업로드 하는 것을 승인한 후, 
+업로드할 객체의 데이터를 세그먼트로 분할하며, 데이터 무결성을 확인한 후 모든 세그멘트를 저장합니다.
+이후 1차 스토리지 제공자는 이레이저 코딩(Erasure Coding)을 기반으로 해당 세그먼트들에 대한 리던던시 솔루션을 연산을 진행합니다. 
+1차 스토리지 제공자나 사용자는 몇 몇 2차 스토리지 제공자를 선정하여 해당 세그먼트의 복제와 이레이저 코딩의 패리티 조각들을 저장합니다.
+해당 데이터 배포 통신은 서비스 제공자 간의 P2P 네트워크 및 REST API를 통해 이루어집니다.
+
+데이터 리던던시 설정 시 1차 스토리지 제공자 및 일부 2차 스토리지 제공자가 사용 불가능하게 되었을 때 그린필드에서 전체 데이터를 복구할 수 있습니다.
+
+## 6 스토리지 경제 및 프리미티브
+
+이 섹션에서는, 데이터 객체에 대한 수명 주기를 토대로 기초적인 경제학 및 운영에 관하여 다룹니다. 
+아래에 나온 프리미티브는 그린필드 블록체인 제네시스 이후 충분한 스토리지 제공자가 등록하고 정삭적으로 작동해야 실행이 가능합니다.
+
+### 6.1 계정 생성
+
+데이터 객체를 그린필드에 작성하기 위해서는, 사용자는 계정, 정확히는 BNB 그린필드 블록체인 상 주소가 있어야 합니다.
+이는 다른 그린필드 주소나 BSC에서 BNB를 전송하여 달성할 수 있습니다.
+
+다음은 사용자들이 건너 뛸 수 있는 특수한 루트지만 "전송 및 작성" 요청을 바로 BSC로 요청할 수 있습니다. 
+그린필드와 BSC는 같은 주소 프로토콜을 공유하므로, 이 작업은 사실상 BSC와 같은 주소로 그린필드에 계정을 생성하는 것과 같습니다.
+
+### 6.2 데이터 객체 생성
+
+사용자들은 객체를 만들기 이전에 먼저 "버켓"부터 생성해야 합니다. AWS S3의 버켓 컨셉과 비슷하게, 여기 "버켓"은 데이터 리소스로 사용자로부터 데이터 객체들을 묶습니다.
+같은 버켓에 있는 객체들은 같은 1차 스토리지 제공자에 저장되고 다운 받을 수 있게 됩니다.
+사용자는 여러 버켓들을 만들 수 있으며 데이터 객체들을 서로 다른 버켓에 저장할 수 있습니다.
+
+각 버켓은 1차 스토리지 제공자가 연관되어 있으며, 그 뜻은 해당 버켓 내에 있는 객체들은 모두 1차 스토리지를 연관된 스토리지로 사용한다는 것과 같습니다. 
+만일 정해진 1차 스토리지 제공자가 요청들을 잘 처리하지 못한다면, 사용자는 온체인 트랜잭션을 통해 버켓을 다른 1차 스토리지로 완전히 이전할 수 있습니다.
+
+데이터 객체 셍성은 2 단계로 이뤄집니다.
+
+1. 요청 단계:
+
+a. 사용자는 1차 스토리지 제공자와 연결한 후 "get approval" 메세지를 전송하여 객체를 저장할 것인지 확인합니다; 
+1차 스토리지 제공자는 해당 작업에 관한 요청을 서명하고 클라이언트에게 반환합니다;
+
+b. 1차 스토리지 제공자가 요청한 데이터를 1차 스토리지로 저장하는 것을 허용한 후,
+클라이언트는 "write(작성)" 트랜잭션 메세지를 생성하는데 여기에는 1차 스토리지 제공자의 서명과 초기 객체 메타데이터인 객체 이름, 버켓 이름, 사이즈, 체크썸 및 선택적으로 
+컨텐츠 타입 및 저장 선호도 등도 들어갈 수 있습니다. 사용자는 트랜잭션을 서명하고 그린필드 체인에 제출합니다;
+
+c. 사용자는 트랜잭션 및 트랜잭션 해시에 대한 결과를 받습니다;
+
+d. 그린필드는 "create(생성)" 요청을 허용하고 수수료로 쓰일 사용자의 자금을 잠금니다.
+
+2. 밀봉 단계 :
+
+a. 사용자는 1차 스토리지 제공자와 연결한 후 트랜잭션 해시를 전송합니다; 1차 스토리지 제공자는 트랜잭션 해시를 사용하여 객체 메타데이터가 이미 그린필드 체인에 생성 되었는지 확인합니다.
+
+b. 만일 객체 메타데이터가 이미 생성되었다면, 사용자들은 오브젝트 페이로드 데이터를 1차 스토리지 제공자에 업로드를 시작합니다. 
+1차 스토리지 제공자는 페이로드 데이터가 객체의 메타데이터와 같은지 비교하는데, 그린필드 체인 상 체크썸과 페이로드 데이터의 체크썸을 확인합니다.
+만일 같다면 1차 스토리지 제공자는 "uploaded" 룰 서명하고 사용자에게 확인해 줄 것입니다.
+
+c. 1차 스토리지 제공자는 2차 스토리지 제공자와 동기화하여 데이터 리던던시(중복)를 설정하고, "Seal"(밀봉) 트랜잭션에 서명하여 저장할 메타데이터를 완성합니다.
+모종의 이유로 1차 스토리지 제공자가 파일을 저장하고 싶지 않는다면 해당 요청에 대해 "SealReject"(밀봉 거절) 반환합니다.
+
+d. 그린필드는 객체에 대한 스토리지의 생명 주기룰 시작하기 위해 "Seal(밀봉)" 혹은 "SealReject(밀봉 거절)" 트랜잭션을 처리합니다.
+사용자는 도중 생성 과정을 포기하고 일부 환불 받기 위해 "CancelRequest" 트랜잭션을 보낼 수 있습니다.
+
+1차 스토리지 제공자가 사용자와 제대로 협력하지 않은 경우도 존재합니다: 
+1. 1차 스토리지 제공자가 업로드 요청을 인지하지만, 제 시간에 수락하지 않은 경우;
+2. 1차 스토리지 제공자가 "업로드된" 확인서에 서명하지만 트랜잭션 정해진 시간 안에 밀봉을 하지 않은 경우.
+그린필드는 1차 스토리지 제공자가 객체 생성을 "밀봉(Seal)" 하거나 "밀봉 거절(SealReject)" 트랜잭션을 정해진 시간 안에 보내기를 기대합니다;
+그러지 않은 경우 스토리지 제공자는 벌금이 부과됩니다. 1차 스토리지 제공자는 업로드 요청을 승인하지 않거나 시간 내에 봉인하지 않을 합리적인 이유가 없는 반면,
+사용자는 요청을 생성할 합리적인 이유가 없지만 시간 내에 업로드 할 이유도 없습니다.
+
+크로스 체인 트랜잭션으로 BSC에서 "create"가 트리거되는 특별한 경우가 있을 수 있는데, 이 경우 1차 스토리지 제공자가 직접 요청을 받을 수 없습니다.
+1차 스토리지 제공자는 해당 요청을 조회할 수 있으며 동일한 방법으로 다른 액션을 수행할 수 있습니다.
+
+### 6.3 데이터 스토리지
+
+데이터 객체가 봉인되면, 객체의 소유주는 사실상 계약이 성사된 것인데, 소유자는 스토리지 공간 이용에 대한 수수료를 지급하고 스토리지 제공자는 저장소 공간 제공 및 데이터 가용성을 보장합니다.
+
+데이터 객체 소유자는 미지급 수수료를 정산하면 항상 1차 스토리지 제공자를 변경할 수 있습니다.
+
+스토리지 제공자, 특히 1차 스토리지 제공자는 개인적인 의결 혹은 결정에 의해 저장을 중지하라고 사용자에게 알릴 수 있습니다.
+다른 SP 및 소유자는 해당되는 알림을 조회할 수 있습니다. 만일 소유자가 정해진 시간 안에 반응하지 않고 다른 스토리지 제공자가 해당 비즈니스를 이어 받고 싶으면, 다른 스토리지 제공자들이 자발적으로 그린필드에 데이터 개체를 저장할 후계자임을 자발적으로 제안할 수 있습니다.
+
+### 6.4 데이터 읽기 및 다운로드
+
+설계상 저장된 바이트값과 객체를 저장한 후 다운로드한 것은 처음의 올린 바이트와 완전히 동일해야 합니다.
+스토리지 제공자는 암호화 논리를 사용할 수 있지만, 데이터를 다운받을 때 업로드 된 것과 동일한 바이트를 표시해야 합니다.
+스토리지 제공자가 사용자의 지시 외에 데이터를 순환시키지 않을 의무가 있음에도 불구하고, 
+스토르지 제공자나 다른 사람이 데이터를 인식할 수 없도록 하려면 사용자는 자신의 암호화 체계를 선택하거나 클라이언트 소프트웨어가 제공하는 기본 암호화 체계를 사용할 수 있습니다.
+
+데이터 객체들은 제대로 읽는 권한을 갖춘 주소들만 읽고 다운로드 할 수 있습니다.
+객체의 1차 스토리지 제공자에서 주로 다운로드 받습니다. 1차 스토리지 제공자가 불가능하다면, 
+소유자 및 그린필드 블록체인 검증인들은 도전(파트 3에 설명) 및 1차 스토리지 제공자 변경을 통해 다운로드를 복구할 수 있습니다.
+
+각 객체는 시간 기반 트래픽 대역폭 할당량이 존재하는데, 이 범위 안에서 일정량만 사용하면 누구나 무료로 사용할 수 있습니다.
+이 할당량은 대부분의 경우 개인들이 일반적인 사용 조건에서 사용하는데는 문제 없을 것으로 예상하고 있습니다.
+
+객체를 다운 받기 위한 추가 대역폭을 위해서는, 누군가가 데이터 패키지를 구매해야 하는데, 이는 지불 섹션에 다룰 것입니다.
+
+### 6.5 권한 및 그룹
+
+권한은 잠재적인 비즈니스 모델을 활성화하기 위해 소개된 그린필드의 주요 로직입니다.
+
+데이터 리소스, 객체, 버켓, 지불 계정, 그룹들은 모두 권한과 관련 있습니다.
+해당 권한들은 각 계정이 특정 행동을 취할 수 있는 지 확신시켜 줍니다.
+
+그룹은 한 계정처럼 똑같이 권한이 설정된 집합의 경우 그룹이라고 합니다. 그룹은 하나의 계정처럼 처리할 수 있는 계정들의 목록입니다.
+
+권한의 예시는:
+
+- 넣기, 리스트, 받기, 삭제, 복사 및 데이터 객체 실행
+
+- 버켓에서 생성, 제거, 및 리스트
+
+- 그룹에서 생성, 삭제, 멤버 명단, 이탈자
+
+- 지불 계정 생성 및 연관
+
+- 권한 부여하거나, 위의 권한 취소
+
+데이터 리소스와 계정/그룹 및 그룹 정의와 연관 있는 권한들은 그린필드 블록체인에 공개적으로 저장됩니다.
+이 내용들은 평범한 텍스트로 구성되어 있는데, 이후 영지식 증명 기술을 통한 개인 정보 보호 모드도 소개될 예정입니다.
+
+권한 작업이 재밌는 이유 중 하나는 다음 작업이 BSC 상에서 스마트 컨트랙트 혹은 외부 소유 계정(EOA)를 통해 바로 이뤄질 수 있다는 것입니다.
 
 ### 6.6 수수료 및 지불
 
 <div align="center"><img src="./assets/6.6%20Payment%20Stream%20Flow.png" height="80%" width="80%"></div>
-<div align="center"><i>Figure 6.1: Payment Stream Flow</i></div>
+<div align="center"><i>Figure 6.1: 지불 스트림 흐름</i></div>
 
 그린필드에서 저장소 수수료는 *[Superfluid](https://docs.superfluid.finance/superfluid/protocol-overview/in-depth-overview/super-agreements/constant-flow-agreement-cfa)*와 같은 스팀 지불 스타일로 부과될 것입니다.
 
-The fees are paid on Greenfield in the style of "Stream" from users to
-receiver accounts at a constant rate. The fees are "charged" every
-second as they are used.
+그린필드에서는 수수료를 일정한 비율로 사용자에서 수신자 계정으로 "스트림" 형태로 지불합니다. 
+사용료는 사용될 때마다 "청구"됩니다.
 
 그린필드에는 두 종류의 수수료가 존재합니다: 객체 저장 비용 및 데이터 패키지 비용
 
 저장소의 경우 그린필드에 저장된 모든 객체는 사이즈, 복제 수, 기본 가격 비율 및 다른 매개변수로 인해서 결정됩니다.
 객체가 저장이 된 후 총 비용은 시간과 기본 가격과 연관이 있습니다.
 
-For data downloading, there is a free, time-based quota for each bucket
-of users' objects. If it's exceeded, users can promote their data
-package to get more quota. Every data package has a fixed price for the
-defined period. Once the data package is picked, the total charge of
-downloading will be only related to time and the data package price,
-until the data package setting is changed again.
+데이터 다운로드의 경우 사용자 객체의 각 버켓에 대해 시간 기반의 무료 할당량이 존재합니다.
+이를 초과하는 경우 사용자는 데이터 패키지를 승격하여 할당량을 늘릴 수 있습니다.
+모든 데이터 패키지는 정해진 기간동안 고정된 가격을 가집니다. 
+데이터 패키지를 선택하면, 데이터 패키지 설정이 다시 변경될 때까지 총 다운로드 비용은 시간과 데이터 패키지 가격과만 관련됩니다.
 
-Here there is trust between the users and the SPs for data download. As
-the extra downloading bandwidth will charge a fee and the download
-journal is not fully stored on the Greenfield blockchain. SPs should
-provide an endpoint interface for users to query the download billing
-details with detailed logs and downloaders' signatures. If the users and
-the SPs cannot agree on the bill, users may just select another Primary
-SP.
+여기서 사용자와 스토리지 제공자 간에는 데이터 다운로드에 대한 신뢰가 존재합니다.
+추가적인 다운로드 대역폭은 추가 수수료를 지불해야 하며, 다운로드 일지의 전부는 그린필드 블록체인에 저장되지 않습니다.
+스토리지 제공자들은 사용자들이 다운로드 받은 사람들의 서명 및 세부 로그를 지닌 다운로드 청구 세부 정보를 쿼리할 수 있는 엔드포인트 인터페이스를 제공해야합니다. 
+만일 사용자가 스토리지 제공자가 청구한 금액에 동의할 수 없으면, 다른 1차 스토리지 제공자로 변경하면 됩니다.
 
-By default, the object owner's address will be used to pay for the
-objects it owns. But users can also create multiple "payment accounts"
-and associate objects to different payment accounts to pay for storage
-and bandwidth.
+기본적으로, 객체 소유자의 주소는 보유하고 있는 객체에 관해 지불할 때 사용합니다. 
+단 사용자들은 여러 "지불 계정"을 생성한 후 객체들을 다른 지불 계정들에 연계하여 스토리지와 대역폭 사용에 지불할 수도 있습니다.
 
-The address format of the payment account is the same as normal
-accounts. It's derived by the hash of the user address and payment
-account index. However, the payment accounts are actually only logical
-ones and only exist in the storage payment module. Users can deposit
-into, withdraw from and query the balance of payment accounts on the
-Greenfield blockchain, but users cannot use payment accounts to perform
-staking or other on-chain transactions. Payment accounts can be set as
-"non-refundable". Users cannot withdraw funds from such payment
-accounts.
+지불 계정의 주소 형식은 기본 계정들과 동일합니다. 이는 사용자 주소 및 지불 계정의 인덱스 값의 해시로부터 파생됩니다.
+다만, 지불 계정은 실제로는 논리적인 계징일 뿐이며 스토리지 결제 모듈에만 존재합니다. 
+사용자는 지불 계정에서 예치 혹은 회수하거나, 그린필드 블록체인에서 잔고를 쿼리할 수 있지만, 스테이킹이나 온체인 트랜잭션을 사용할 수 없습니다. 
+지불 계정은 "환불 불가(non-refundable)" 로드 설정 가능한데, 예치는 가능하지만 지불 계정에서의 출금은 불가능합니다. 
 
-Other users can also sponsor the payment by donating a "stream payment"
-flow to selected "non-refundable" payment accounts. They can pause at
-any time they want.
+다른 사용자들은 정해진 "환불 불가" 결제 계정에 "스트림 결제" 흐름을 기부하여 결제를 후원할 수 있습니다.
+이는 어느 때나 중지할 수 있습니다.
 
-All the storage fees and data packages are priced and paid in BNB. There
-are system parameters and price oracles from the Greenfield Relayers
-(described below) to adjust the pricing based on the marketing
-situation.
+모든 스토리지 수수료 및 데이터 패키지는 BNB로 인해 측정되며, BNB를 통해 진행됩니다. 
+이는 아래 설명될 그린필드 릴레이어에 시스템 매개변수 및 가격 오라클을 통해 시장 상황에 따른 가격을 조정하게 됩니다.
 
-Once the payment accounts run out of BNB, the objects associated with
-these payment accounts will suffer from a downgraded service of
-downloading, i.e. the download speed and connection numbers will be
-limited. Once the fund is transferred to the payment accounts, the
-service quality can be resumed right away. If the service is not resumed
-for a long time, it is the SPs' discretionary decision to clear the data
-out, in a similar way to how SPs claim to stop services to certain
-objects. In such a case, the data may be gone from Greenfield
-completely.
+지불 계정에 BNB가 부족하면, 해당 지불 계정과 관련있는 객체들은 다운로드 스피드 및 연결 가능한 숫자게 제한되는 등 더 낮은 품질의 다운로드 서비스가 제공됩니다.
+지불 계정에 자금이 전송되면, 서비스 품질이 바로 복구됩니다. 만일 서비스가 오랜 시간동안 재게되지 않는다면, 스토리지 제공자가 특정 객체에 관해 서비스 제공 중지를 선언하는 것처럼
+데이터를 제거하는 것이 스토리지 제공자의 재량이 됩니다. 다음과 같은 경우에는 데이터가 그린필드에서 완전히 제거될 수 있습니다.
 
 ### 6.7 데이터 무결성 및 가용성 도전
 
@@ -663,13 +485,10 @@ completely.
 그 다음, 사용자와 비슷하게 서비스 제공자는 다른 서비스 제공자에게 도전 트랜잭션을 접수할 수 있습니다.
 마지막으로, 그린필드 블록체인은 임의로 내부 도전 이벤트를 발행할 것입니다.
 
-도전은 그린필드 트랜잭션이나 블록 생성 끝에 내부 이벤트로 신청할 수 있습니다.
-그린필드 블록체인 검증인들이 해당 첼린지를 조회하면, 이들은 표준 오프 체인 상 체크를 서비스 제공자의 데이터와 비교합니다. 
-해당 검증인들은 These validators will vote for the
-challenge results via an aggregated multisig via an off-chain P2P
-network and submit them to the Greenfield blockchain. The failed result
-for a challenge will slash the corresponding SPs. The submitter and
-validators will get rewards for such challenges.
+도전은 그린필드 트랜잭션이나 블록 생성 시점 끝에 내부 이벤트로 작동할 수 있습니다.
+그린필드 블록체인 검증인들이 해당 도전을 조회하면, 이들은 표준 오프 체인 데이터를 서비스 제공자의 데이터와 비교하여 확인합니다. 
+해당 검증인들은 도전 결과에 대한 투표를 오프 체인 P2P 네트워크에서 진행 후 다중 서명으로 모은 후 그린필드 블록체인에 제출합니다.
+도전이 실패한 결과는 해당되는 스토리지 제공자를 슬래싱할 것입니다. 그러한 경우 제출자와 검증자는 도전에 대한 보상을 받을 것입니다.
 
 도전을 실패한 데이터는 서비스 제공자가 회복할 때까지 정해 시간동안 재도전이 불가능합니다.
 
@@ -716,13 +535,11 @@ validators will get rewards for such challenges.
 ### 7.2 프레임워크
 
 <div align="center"><img src="./assets/7.1%20Cross-chain%20Architecture.jpg"  height="80%" width="80%"></div>
-<div align="center"><i>Figure 7.1: Cross-chain Architecture</i></div>
+<div align="center"><i>Figure 7.1: 크로스 체인 아키텍처</i></div>
 
-크로스 체인의 하부 레이어는 크로스 체인 **커뮤니케이션 레이어**로, 프리미티브(primitive) 통신 패키지를 다루거나 검증하는 역할을 합니다.
-중간 레이어는 **리소스 미러**가 적용되었습니다. 그린필드에 정의되었지만 BSC에 미러링되지 않은 리소스 자산들을 책입집니다. 
-상위 레이어는 **어플리케이션 레이어**로, BSC에 미러링된 리소스 독립체와 프리미티를 통해 which are the smart
-contracts implemented by community developers on BSC to operate the
-mirrored resource entities with their primitives; 
+크로스 체인의 하부 계층은 크로스 체인 **통신 계층**으로, 프리미티브(primitive) 통신 패키지를 다루거나 검증하는 역할을 합니다.
+중간 계층은 **리소스 미러**가 적용되었습니다. 그린필드에 정의되었지만 BSC에 미러링되지 않은 리소스 자산들을 책입집니다. 
+상위 계층은 **어플리케이션 계층**으로, 이는 프리미티브를 통해 미러링된 리소스 독립체로 활동하기 위해 커뮤니티 개발자들이 BSC 상에 구현한 스마트 컨트랙트입니다. 
 그린필드에는 프로그래밍 기능이 없기 때문에 어플리케이션 레이어가 존재하지 않습니다.
 실제 디앱은 어플리케이션 레이어에 일부 존재할 것이며, 그린필드 코어 및 보조 인프라와 통신할 것입니다.
 
@@ -735,9 +552,9 @@ mirrored resource entities with their primitives;
 
 - 그린필드가 제어하는 모든 리소스는 BSC 상으로 제어 권한을 전송할 수 있습니다.
 
-### 7.3 커뮤니케이션 레이어
+### 7.3 통신 레이어
 
-커뮤니케이션 레이어는 **그린필드 릴레이어**의 집합으로 이루어져 있습니다 :
+통신 레이어는 **그린필드 릴레이어**의 집합으로 이루어져 있습니다 :
 
 - 각 검증인은 릴레이어를 운영해야 합니다. 각 릴레이어는 검증자의 필수 정보의 일부로 체인에 저장된 키의 주소와 함께 BLS 개인 키를 가지고 있다.
 
@@ -749,10 +566,10 @@ mirrored resource entities with their primitives;
 
 ### 7.4 리소스 미러 레이어
 
-#### 7.4.1 리소스 독립체 미러 (Resource Entity Mirror)
+#### 7.4.1 리소스 독립체 미러
 
 대부분의 크로스 체인 패키지의 목적은 그린필드 블록체인 상 리소스 독립체의 상태를 변환하기 위한 것입니다.
-따라서 다음 리소스 독립체들은 BSC상 미러링 될 수 있습니다:
+따라서 다음 리소스 독립체(Resurce Entity)들은 BSC상 미러링 될 수 있습니다:
 
 1. 계정(Account)
 

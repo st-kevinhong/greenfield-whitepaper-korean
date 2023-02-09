@@ -44,7 +44,7 @@ Hope everyone enjoys the journey!
     - [3.3 The Cross-Chain with BSC](./part1.md#33-the-cross-chain-with-bsc)
     - [3.4 The Trinity](./part1.md#34-the-trinity)
   - [4 BNB Greenfield Core](./part1.md#4-bnb-greenfield-core)
-    - [4.1 The BNB Greenfield Blockchain](./part1.md#41-the-bnb-greenfield-blockchain)
+    - [4.1 The BNB 그린필드 블록체인](./part1.md#41-the-bnb-greenfield-blockchain)
     - [4.2 The Storage Providers, SPs](./part1.md#42-the-storage-providers-sps)
     - [4.3 The Pair Synergy](./part1.md#43-the-pair-synergy)
   - [5 The Greenfield Data Storage](./part1.md#5-the-greenfield-data-storage)
